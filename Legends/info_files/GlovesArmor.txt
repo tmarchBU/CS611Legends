@@ -1,0 +1,3 @@
+Name/cost/required level/damage reduction
+Leather_Gloves 150 2 200
+Steel_Gloves 500 6 800

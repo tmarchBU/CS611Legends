@@ -1,0 +1,4 @@
+Name/cost/required level/damage reduction
+Ski_Mask 50 1 50
+Knight_Helmet 700 8 1000
+Crown 2000 10 2000
