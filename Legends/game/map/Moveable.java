@@ -1,5 +1,7 @@
 package game.map;
 
+import characters.RPGCharacter;
+
 /*
 File: Moveable.java
 Developer: Tristan Marchand
@@ -12,7 +14,7 @@ Description: Interface to move in and out of cells on a board
 
 public interface Moveable 
 {
-    public boolean enter(Marker marker);
+    public boolean enter(RPGCharacter character);
     public boolean enterable();
     public boolean exit();
 }
