@@ -26,26 +26,4 @@ public class CommonCell extends Cell
     {
         super(marker);
     }
-
-    /*
-    MOVEABLE METHODS
-    */
-    public boolean enterable()
-    {
-        return true;
-    }
-
-    public boolean enter(Marker marker)
-    {
-        setMarker(marker);
-
-        return true;
-    }
-
-    public boolean exit()
-    {
-        setMarker(marker);
-
-        return true;
-    }
 }

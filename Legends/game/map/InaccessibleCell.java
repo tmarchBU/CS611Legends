@@ -14,6 +14,7 @@ Description: Subclass of cell, representing a inaccessible cell. Used for Legend
 Imported Libraries
 */
 import GUI_helper.*;
+import characters.RPGCharacter;
 
 public class InaccessibleCell extends Cell
 {
@@ -35,12 +36,12 @@ public class InaccessibleCell extends Cell
         return false;
     }
 
-    public boolean enter(Marker marker)
+    public boolean enter(RPGCharacter character)
     {
         return false;
     }
 
-    public boolean exit()
+    public boolean exit(RPGCharacter character)
     {
         return false;
     }

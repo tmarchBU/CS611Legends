@@ -26,26 +26,4 @@ public class MarketCell extends Cell
     {
         super(marker);
     }
-
-    /*
-    Moveable Methods
-    */
-    public boolean enterable()
-    {
-        return true;
-    }
-
-    public boolean enter(Marker marker)
-    {
-        setMarker(marker);
-
-        return true;
-    }
-
-    public boolean exit()
-    {
-        setMarker(marker);
-
-        return true;
-    }
 }
