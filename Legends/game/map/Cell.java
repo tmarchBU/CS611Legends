@@ -1,5 +1,8 @@
 package game.map;
 
+import java.util.ArrayList;
+import characters.RPGCharacter;
+
 /*
 File: SpellFactory.java
 Developer: Tristan Marchand
@@ -12,7 +15,8 @@ Description: A cell of a board
 
 public class Cell implements Moveable
 {
-    private Marker marker;          // holds reference to the marker located on that cell
+    private ArrayList<RPGCharacter> characters; 
+    private Marker marker;         
     private Cell above;             // holds reference to the cell above it
     private Cell below;             // holds reference to the cell below it
     private Cell left;              // holds reference to the cell left of it
@@ -24,6 +28,7 @@ public class Cell implements Moveable
     public Cell()
     {
         setMarker(null);
+        setCharacters(new ArrayList<RPGCharacter>());
         setAbove(null);
         setBelow(null);
         setRight(null);
@@ -38,9 +43,11 @@ public class Cell implements Moveable
 
     // GETTER METHODS
 
-    /*
-    Marker Getter - returns the marker in that cell
-    */
+    public ArrayList<RPGCharacter> getCharacters()
+    {
+        return characters;
+    }
+
     public Marker getMarker()
     {
         return this.marker;
@@ -68,13 +75,14 @@ public class Cell implements Moveable
 
     // SETTER METHODS
 
-    /*
-    Marker Setter - sets the marker to the inputed marker
-    Input - Marker marker
-    */
     public void setMarker(Marker marker)
     {
         this.marker = marker;
+    }
+
+    public void setCharacters(ArrayList<RPGCharacter> characters)
+    {
+        this.characters = characters;
     }
 
     public void setAbove(Cell cell)
