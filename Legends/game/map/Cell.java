@@ -2,6 +2,7 @@ package game.map;
 
 import java.util.ArrayList;
 import characters.RPGCharacter;
+import game.rules.LegendsValorRules;
 
 /*
 File: SpellFactory.java
@@ -110,12 +111,17 @@ public class Cell implements Moveable
     */
     public boolean enter(RPGCharacter character)
     {
-        return getCharacters().add(character);
+        if (getCharacters().size() < LegendsValorRules.MAX_CHARACTERS_PER_CELL)
+        {
+            return getCharacters().add(character);
+        }
+
+        return false;
     }
 
     public boolean enterable()
     {
-        return true;
+        return (getCharacters().size() < LegendsValorRules.MAX_CHARACTERS_PER_CELL);
     }
 
     public boolean exit(RPGCharacter character)
