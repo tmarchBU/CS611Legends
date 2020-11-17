@@ -14,7 +14,18 @@ Description: Interface to move in and out of cells on a board
 
 public interface Moveable 
 {
+    /*
+    enter - pass the character you want to enter this cell, returns true if successful move
+    */
     public boolean enter(RPGCharacter character);
+
+    /*
+    enterable - returns true if enterable, false if not
+    */
     public boolean enterable();
-    public boolean exit();
+    
+    /*
+    exit - pass the character you want to exit this cell, returns true if successful move
+    */
+    public boolean exit(RPGCharacter character);
 }

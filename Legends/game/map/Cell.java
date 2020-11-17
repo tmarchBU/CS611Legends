@@ -108,11 +108,9 @@ public class Cell implements Moveable
     /*
     Moveable Methods
     */
-    public boolean enter(Marker marker)
+    public boolean enter(RPGCharacter character)
     {
-        setMarker(marker);
-
-        return true;
+        return getCharacters().add(character);
     }
 
     public boolean enterable()
@@ -120,10 +118,8 @@ public class Cell implements Moveable
         return true;
     }
 
-    public boolean exit()
+    public boolean exit(RPGCharacter character)
     {
-        setMarker(new Marker("  "));
-
-        return true;
+        return getCharacters().remove(character);
     }
 }// end class
