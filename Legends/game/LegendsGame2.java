@@ -1,7 +1,12 @@
 package game;
-/**
- * The game class for Legends and Heros 2
- */
+/*
+File: LegendsGame2.java
+Developer: Tristan Marchand, Shuaike Zhou
+Email: tmarch@bu.edu, szhou97@bu.edu
+Last Edited: Thursday, November 19, 2020
+
+Description: A subclass of RPGGame that plays the game of Legends of Valor
+*/
 
 
 /*
@@ -13,11 +18,10 @@ import characters.*;
 import factories.*;
 import game.map.*;
 import game.player.LegendsPlayer;
-import game.rules.LegendsRules;
 import game.rules.LegendsValorRules;
 import utilities.*;
 
-public class LegendsGame2 extends RPGGame implements Playable 
+public class LegendsGame2 extends RPGGame2 implements Playable 
 {
     private HeroFactory heroFactory;
     private MonsterFactory monsterFactory;
@@ -95,25 +99,26 @@ public class LegendsGame2 extends RPGGame implements Playable
     /*
     getValidChoices - returns the valid moves/actions a player can make at any spot on the board
     */
-    private ArrayList<String> getValidChoices()
+    private ArrayList<String> getValidChoices(RPGCharacter hero)
     {
+        Cell location = hero.getLocation();
         ArrayList<String> choices = new ArrayList<String>();
         choices.add("Q");
         choices.add("H");
         choices.add("I");
-        if (getPlayerLocation().getAbove() != null && getPlayerLocation().getAbove().enterable())
+        if (location.getAbove() != null && location.getAbove().enterable())
         {
             choices.add("W");
         }
-        if (getPlayerLocation().getBelow() != null && getPlayerLocation().getBelow().enterable())
+        if (location.getBelow() != null && location.getBelow().enterable())
         {
             choices.add("S");
         }
-        if (getPlayerLocation().getLeft() != null && getPlayerLocation().getLeft().enterable())
+        if (location.getLeft() != null && location.getLeft().enterable())
         {
             choices.add("A");
         }
-        if (getPlayerLocation().getRight() != null && getPlayerLocation().getRight().enterable())
+        if (location.getRight() != null && location.getRight().enterable())
         {
             choices.add("D");
         }
@@ -128,64 +133,34 @@ public class LegendsGame2 extends RPGGame implements Playable
     {
         String strInput = "";
         int numInput = 0;
-        ArrayList<String> choicesList = getValidChoices();
-        String[] choices = new String[choicesList.size()];
-        choicesList.toArray(choices);
+        ArrayList<Hero> heros = getPlayer().getHeroes();
+        for (Hero hero : heros) {
+            ArrayList<String> choicesList = getValidChoices(hero);
+            String[] choices = new String[choicesList.size()];
+            choicesList.toArray(choices);
+            System.out.println(getBoard());
+            getBoard().printLegend();
+            TableHelper.printHeroes(getPlayer().getHeroes());
+            System.out.println("What would you like to do for " + hero.getName() + "?");
+            strInput = input.inputString(choices).toUpperCase();
+            Cell currLocation = getLocation(hero);
+            switch (strInput)
+            {
+                case "Q": quit();
+                case "W": move(currLocation.getAbove(), hero); break;
+                case "A": move(currLocation.getLeft(), hero); break;
+                case "S": move(currLocation.getBelow(), hero); break;
+                case "D": move(currLocation.getRight(), hero); break;
+                case "I": openInventory(); break;
+                case "H": help(); break;
+                // TODO: IMPLEMENT TELEPORT
 
-        System.out.println(getBoard());
-        getBoard().printLegend();
-        TableHelper.printHeroes(getPlayer().getHeroes());
-        System.out.println("What would you like to do?");
-        strInput = input.inputString(choices).toUpperCase();
-        switch (strInput)
-        {
-            case "Q": quit();
-            case "W": move(getPlayerLocation().getAbove()); break;
-            case "A": move(getPlayerLocation().getLeft()); break;
-            case "S": move(getPlayerLocation().getBelow()); break;
-            case "D": move(getPlayerLocation().getRight()); break;
-            case "I": openInventory(); break;
-            case "H": help(); break;
-            // TODO: IMPLEMENT TELEPORT
+
+
+                // TODO: IMPLEMENT DIFFERENT CELL TYPE SCENERIOS
+            }
         }
         
-        if (getPlayerLocation() instanceof CommonCell)
-        {
-            if (RandomHelper.randomMonsterAttack())
-            {
-                System.out.println("Monsters have appeared!");
-                ArrayList<Battleable> monsters = new ArrayList<Battleable>();
-                ArrayList<Battleable> heroes = new ArrayList<Battleable>();
-
-                for (int i = 0; i < getPlayer().getHeroes().size(); i++)
-                {
-                    Monster monster = monsterFactory.getRandomMonster();
-                    monsters.add(monster);
-                    heroes.add(getPlayer().getHeroes().get(i));
-                }
-
-                Battle battle = new Battle(heroes, monsters);
-                if (!battle.start())
-                {
-                    resetHeroes();
-                }
-            }
-        }
-
-        if (getPlayerLocation() instanceof MarketCell)
-        {
-            System.out.println("Would you like to enter the market? (yes/no)");
-            strInput = input.yesNo();
-            if (strInput.equalsIgnoreCase("YES"))
-            {
-                Market market = new Market(armorFactory, handheldFactory, potionFactory, spellFactory);
-                System.out.println("Which hero would you like to enter the market?");
-                numInput = input.inputInt(1, getPlayer().getHeroes().size()) - 1;
-                market.open(getPlayer().getHeroes().get(numInput));
-            }
-        }
-
-        // TODO: IMPLEMENT OTHER CELL TYPES
     }
 
     /*
@@ -265,7 +240,6 @@ public class LegendsGame2 extends RPGGame implements Playable
                 lane++;
             }
         }
-        
     }
 
     /*
