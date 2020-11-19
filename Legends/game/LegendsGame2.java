@@ -14,6 +14,7 @@ import factories.*;
 import game.map.*;
 import game.player.LegendsPlayer;
 import game.rules.LegendsRules;
+import game.rules.LegendsValorRules;
 import utilities.*;
 
 public class LegendsGame2 extends RPGGame implements Playable 
@@ -64,7 +65,8 @@ public class LegendsGame2 extends RPGGame implements Playable
         chooseHeroes();
         System.out.println("Press Enter to Begin.");
         input.pressEnter();
-        placePlayerOnBoard();
+        placeHerosOnBoard();
+        placeMonstersOnBoard();
         
         
         while(active)
@@ -250,27 +252,55 @@ public class LegendsGame2 extends RPGGame implements Playable
         TableHelper.printHeroes(getPlayer().getHeroes());
     }
 
+    private void placeCharactersOnBoard(ArrayList<RPGCharacter> characters, int row) {
+        int numLanes = LegendsValorRules.NUM_LANES;
+        int laneWidth = row / numLanes;
+        int lane = 0;
+        for (RPGCharacter c : characters) {
+            int cellNum = RandomHelper.randomNum(laneWidth - 1);
+            int col = cellNum + lane;
+            Moveable cell = (Moveable) getBoard().getCell(row, col);
+            if (cell instanceof NexusCell) {
+                cell.enter(c);
+                lane++;
+            }
+        }
+        
+    }
+
     /*
     placePlayerOnBoard - randomly places a player on the board at the beginning of the game
     */
-    private void placePlayerOnBoard()
+    private void placeHerosOnBoard()
     {
         // TODO: PLAYERS AND MONSTERS WILL SPAWN FROM NEXUS CELLS
-        boolean active = true;
-        while (active)
-        {
-            int cellNum = RandomHelper.randomNum(LegendsRules.BOARD_HEIGHT * LegendsRules.BOARD_WIDTH);
-            int row = cellNum / LegendsRules.BOARD_HEIGHT;
-            int col = cellNum % LegendsRules.BOARD_WIDTH;
-            Moveable cell = (Moveable) getBoard().getCell(row, col);
-            if (cell instanceof CommonCell)
-            {
-                cell.enter(getPlayer().getMarker());
-                setPlayerLocation((Cell) cell);
-                active = false;
-                break;
-            }
+        int row = LegendsValorRules.BOARD_HEIGHT;
+        ArrayList<Hero> heros = getPlayer().getHeroes();
+        ArrayList<RPGCharacter> chars = new ArrayList<RPGCharacter>();
+        
+        for (Hero hero : heros) {
+            chars.add((RPGCharacter) hero);
         }
+        placeCharactersOnBoard(chars, row);
     }
-    
+
+    private void placeMonstersOnBoard()
+    {
+        // TODO
+        int row = 0;
+        ArrayList<RPGCharacter> monsters = new ArrayList<RPGCharacter>();
+        int size = LegendsValorRules.NUM_LANES;
+
+        for (int i = 0; i < size; i++)
+        {
+            Monster monster = monsterFactory.getRandomMonster();
+            monsters.add(monster);
+        }
+        ArrayList<RPGCharacter> chars = new ArrayList<RPGCharacter>();
+        
+        for (RPGCharacter monster : monsters) {
+            chars.add((RPGCharacter) monster);
+        }
+        placeCharactersOnBoard(chars, row);
+    }
 }
