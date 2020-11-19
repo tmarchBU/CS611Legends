@@ -1,11 +1,12 @@
 package game.map;
 
+import GUI_helper.*;
 import characters.*;
 import game.rules.LegendsValorRules;
 
 public class BushCell extends Cell
 {
-    private static final Marker marker = new Marker("");
+    public static final Marker marker = new Marker(TextColors.GREEN + Icons.LIGHT_SHADE + Icons.LIGHT_SHADE + TextColors.RESET);
 
     /*
     CONSTRUCTORS 

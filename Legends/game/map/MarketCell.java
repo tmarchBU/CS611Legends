@@ -17,7 +17,7 @@ import GUI_helper.*;
 
 public class MarketCell extends Cell
 {
-    private static final Marker marker = new Marker(TextColors.YELLOW + Icons.MARKET_ICON + " " + TextColors.RESET);
+    public static final Marker marker = new Marker(TextColors.YELLOW + Icons.MARKET_ICON + " " + TextColors.RESET);
 
     /*
     CONSTRUCTORS

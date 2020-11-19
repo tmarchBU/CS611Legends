@@ -18,7 +18,7 @@ import characters.RPGCharacter;
 
 public class InaccessibleCell extends Cell
 {
-    private static final Marker marker = new Marker(TextColors.RED + Icons.INACCESSIBLE_ICON + " " + TextColors.RESET);
+    public static final Marker marker = new Marker(TextColors.RED + Icons.INACCESSIBLE_ICON + " " + TextColors.RESET);
 
     /*
     CONSTRUCTORS

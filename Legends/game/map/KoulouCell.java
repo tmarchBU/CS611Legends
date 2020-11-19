@@ -1,11 +1,12 @@
 package game.map;
 
+import GUI_helper.*;
 import characters.*;
 import game.rules.LegendsValorRules;
 
 public class KoulouCell extends Cell
 {
-    private static final Marker marker = new Marker("");
+    public static final Marker marker = new Marker(TextColors.BLUE + Icons.KOULOU_ICON + " " + TextColors.RESET);
 
     /*
     CONSTRUCTORS 

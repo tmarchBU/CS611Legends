@@ -17,7 +17,7 @@ import GUI_helper.*;
 
 public class CommonCell extends Cell
 {
-    private static final Marker marker = new Marker(TextColors.GREEN + Icons.LIGHT_SHADE + Icons.LIGHT_SHADE + TextColors.RESET);
+    public static final Marker marker = new Marker(TextColors.WHITE + Icons.LIGHT_SHADE + Icons.LIGHT_SHADE + TextColors.RESET);
 
     /*
     CONSTRUCTORS

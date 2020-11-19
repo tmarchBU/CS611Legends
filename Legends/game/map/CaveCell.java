@@ -1,11 +1,12 @@
 package game.map;
 
+import GUI_helper.*;
 import characters.*;
 import game.rules.LegendsValorRules;
 
 public class CaveCell extends Cell 
 {
-    private static final Marker marker = new Marker("");
+    public static final Marker marker = new Marker(TextColors.PURPLE + Icons.CAVE_ICON + " " + TextColors.RESET);
 
     /*
     CONSTRUCTORS 
