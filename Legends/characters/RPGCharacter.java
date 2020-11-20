@@ -1,5 +1,7 @@
 package characters;
 
+import game.map.Cell;
+
 /*
 File: RPGCharacter.java
 Developer: Tristan Marchand
@@ -18,6 +20,7 @@ public abstract class RPGCharacter extends Character implements Battleable
     private Inventory inventory;
     private int mana;
     private int maxMana;
+    private Cell location;
 
     /*
     CONSTRUCTORS
@@ -31,6 +34,7 @@ public abstract class RPGCharacter extends Character implements Battleable
         setInventory(inventory);
         setMana(mana);
         setMaxMana(mana);
+        setLocation(null);
     }
 
     /*
@@ -66,6 +70,11 @@ public abstract class RPGCharacter extends Character implements Battleable
         this.inventory = inventory;
     }
 
+    public void setLocation(Cell cell)
+    {
+        this.location = cell;
+    }
+
     /*
     ACCESSORS
     */
@@ -97,6 +106,11 @@ public abstract class RPGCharacter extends Character implements Battleable
     public int getMaxHealth()
     {
         return maxHealth;
+    }
+
+    public Cell getLocation()
+    {
+        return location;
     }
 
     /*
