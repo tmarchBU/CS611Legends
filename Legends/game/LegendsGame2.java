@@ -127,6 +127,56 @@ public class LegendsGame2 extends RPGGame2 implements Playable
         return choices;
     }
 
+    private ArrayList<Battleable> monstersWithinRange(RPGCharacter hero) {
+        Cell heroCell = getLocation(hero);
+        Cell above = heroCell.getAbove();
+        Cell below = heroCell.getBelow();
+        Cell left = heroCell.getLeft();
+        Cell right = heroCell.getRight();
+        ArrayList<RPGCharacter> monsters = new ArrayList<RPGCharacter>();
+        if (above != null && above.enterable())
+        {
+            for (RPGCharacter character : above.getCharacters())
+            {
+                if (character instanceof Monster)
+                {
+                    monsters.add(character);
+                }
+            }
+        }
+        if (below != null && below.enterable())
+        {
+            for (RPGCharacter character : below.getCharacters())
+            {
+                if (character instanceof Monster)
+                {
+                    monsters.add(character);
+                }
+            }
+        }
+        if (left != null && left.enterable())
+        {
+            for (RPGCharacter character : left.getCharacters())
+            {
+                if (character instanceof Monster)
+                {
+                    monsters.add(character);
+                }
+            }
+        }
+        if (right != null && right.enterable())
+        {
+            for (RPGCharacter character : right.getCharacters())
+            {
+                if (character instanceof Monster)
+                {
+                    monsters.add(character);
+                }
+            }
+        }
+        return monsters;
+    }
+
     /*
     playRound - plays one "round" on the board, AKA does one move by the player
     */
@@ -171,8 +221,10 @@ public class LegendsGame2 extends RPGGame2 implements Playable
                     market.open(hero);
                 }
             }
-            
-            // TODO: If monster within range, start battle
+            if (monstersWithinRange(hero).size() > 0)
+            {
+                // TODO: If monster within range, start battle
+            }
 
 
             ArrayList<String> choicesList = getValidChoices(hero);
