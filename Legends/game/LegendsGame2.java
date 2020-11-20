@@ -23,6 +23,7 @@ import utilities.*;
 
 public class LegendsGame2 extends RPGGame2 implements Playable 
 {
+    private int round;
     private HeroFactory heroFactory;
     private MonsterFactory monsterFactory;
     private ArmorFactory armorFactory;
@@ -44,6 +45,7 @@ public class LegendsGame2 extends RPGGame2 implements Playable
         potionFactory = new PotionFactory();
         spellFactory = new SpellFactory();
         input = InputUtility.getSingleInstance();
+        round = 0;
     }
 
     /*
@@ -70,12 +72,11 @@ public class LegendsGame2 extends RPGGame2 implements Playable
         System.out.println("Press Enter to Begin.");
         input.pressEnter();
         placeHerosOnBoard();
-        placeMonstersOnBoard();
-        
         
         while(active)
         {
             playRound();
+            round++;
         }
     }
 
@@ -131,16 +132,52 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     */
     private void playRound()
     {
+        if (round % 8 == 0) {
+            placeMonstersOnBoard(); // Place monsters on board every 8 rounds
+        }
         String strInput = "";
         int numInput = 0;
         ArrayList<Hero> heros = getPlayer().getHeroes();
         for (Hero hero : heros) {
-            ArrayList<String> choicesList = getValidChoices(hero);
-            String[] choices = new String[choicesList.size()];
-            choicesList.toArray(choices);
             System.out.println(getBoard());
             getBoard().printLegend();
             TableHelper.printHeroes(getPlayer().getHeroes());
+            Cell currLocation = getLocation(hero);
+            
+            currLocation = getLocation(hero);
+        
+            if (currLocation instanceof BushCell)
+            {
+                int increase = (int) (hero.getDexterity() * 0.1);
+                hero.increaseDexterity(increase);
+            }
+            else if (currLocation instanceof CaveCell)
+            {
+                int increase = (int) (hero.getAgility() * 0.1);
+                hero.increaseAgility(increase);
+            }
+            else if (currLocation instanceof KoulouCell)
+            {
+                int increase = (int) (hero.getStrength() * 0.1);
+                hero.increaseStrength(increase);
+            }
+            else if (currLocation instanceof NexusCell)
+            {
+                System.out.println("Would you like to enter the market? (yes/no)");
+                strInput = input.yesNo();
+                if (strInput.equalsIgnoreCase("YES"))
+                {
+                    Market market = new Market(armorFactory, handheldFactory, potionFactory, spellFactory);
+                    market.open(hero);
+                }
+            }
+            
+            // TODO: If monster within range, start battle
+
+
+            ArrayList<String> choicesList = getValidChoices(hero);
+            String[] choices = new String[choicesList.size()];
+            choicesList.toArray(choices);
             System.out.println("What would you like to do for " + hero.getName() + "?");
             strInput = input.inputString(choices).toUpperCase();
             Cell currLocation = getLocation(hero);
@@ -154,13 +191,8 @@ public class LegendsGame2 extends RPGGame2 implements Playable
                 case "I": openInventory(); break;
                 case "H": help(); break;
                 // TODO: IMPLEMENT TELEPORT
-
-
-
-                // TODO: IMPLEMENT DIFFERENT CELL TYPE SCENERIOS
             }
         }
-        
     }
 
     /*
@@ -209,7 +241,6 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     private void chooseHeroes()
     {
         ArrayList<Hero> options = new ArrayList<Hero>();
-        
         options.add(heroFactory.getHero("SORCERER"));
         options.add(heroFactory.getHero("WARRIOR"));
         options.add(heroFactory.getHero("PALADIN"));
@@ -242,13 +273,13 @@ public class LegendsGame2 extends RPGGame2 implements Playable
         }
     }
 
-    /*
-    placePlayerOnBoard - randomly places a player on the board at the beginning of the game
+    /** 
+    * placeHeroOnBoard - randomly places a hero on the bottom board when called.
+    * One hero is placed in exactly one lane
     */
     private void placeHerosOnBoard()
     {
-        // TODO: PLAYERS AND MONSTERS WILL SPAWN FROM NEXUS CELLS
-        int row = LegendsValorRules.BOARD_HEIGHT;
+        int row = LegendsValorRules.BOARD_HEIGHT - 1;
         ArrayList<Hero> heros = getPlayer().getHeroes();
         ArrayList<RPGCharacter> chars = new ArrayList<RPGCharacter>();
         
@@ -258,9 +289,12 @@ public class LegendsGame2 extends RPGGame2 implements Playable
         placeCharactersOnBoard(chars, row);
     }
 
+    /** 
+    * placeMonsterOnBoard - Place three randomly picked monsters on the top of 
+    * the board when called. One monster is placed in exactly one lane
+    */
     private void placeMonstersOnBoard()
     {
-        // TODO
         int row = 0;
         ArrayList<RPGCharacter> monsters = new ArrayList<RPGCharacter>();
         int size = LegendsValorRules.NUM_LANES;
