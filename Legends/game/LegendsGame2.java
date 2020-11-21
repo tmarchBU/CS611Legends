@@ -37,7 +37,7 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     */
     public LegendsGame2(LegendsPlayer player)
     {
-        super(player, "Legends", new LegendsBoard());
+        super(player, "Legends", new LegendsValorBoard());
         heroFactory = new HeroFactory();
         monsterFactory = new MonsterFactory();
         armorFactory = new ArmorFactory();
