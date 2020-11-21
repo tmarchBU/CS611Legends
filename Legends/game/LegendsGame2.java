@@ -127,54 +127,55 @@ public class LegendsGame2 extends RPGGame2 implements Playable
         return choices;
     }
 
-    private ArrayList<Battleable> monstersWithinRange(RPGCharacter hero) {
-        Cell heroCell = getLocation(hero);
+    private ArrayList<RPGCharacter>characterWithinRange(RPGCharacter character) 
+    {
+        Cell heroCell = getLocation(character);
         Cell above = heroCell.getAbove();
         Cell below = heroCell.getBelow();
         Cell left = heroCell.getLeft();
         Cell right = heroCell.getRight();
-        ArrayList<RPGCharacter> monsters = new ArrayList<RPGCharacter>();
+        ArrayList<RPGCharacter> characters = new ArrayList<RPGCharacter>();
         if (above != null && above.enterable())
         {
-            for (RPGCharacter character : above.getCharacters())
+            for (RPGCharacter nextCharacter : above.getCharacters())
             {
-                if (character instanceof Monster)
+                if (nextCharacter instanceof Monster)
                 {
-                    monsters.add(character);
+                    characters.add(nextCharacter);
                 }
             }
         }
         if (below != null && below.enterable())
         {
-            for (RPGCharacter character : below.getCharacters())
+            for (RPGCharacter nextCharacter : below.getCharacters())
             {
-                if (character instanceof Monster)
+                if (nextCharacter instanceof Monster)
                 {
-                    monsters.add(character);
+                    characters.add(nextCharacter);
                 }
             }
         }
         if (left != null && left.enterable())
         {
-            for (RPGCharacter character : left.getCharacters())
+            for (RPGCharacter nextCharacter : left.getCharacters())
             {
-                if (character instanceof Monster)
+                if (nextCharacter instanceof Monster)
                 {
-                    monsters.add(character);
+                    characters.add(nextCharacter);
                 }
             }
         }
         if (right != null && right.enterable())
         {
-            for (RPGCharacter character : right.getCharacters())
+            for (RPGCharacter nextCharacter : right.getCharacters())
             {
-                if (character instanceof Monster)
+                if (nextCharacter instanceof Monster)
                 {
-                    monsters.add(character);
+                    characters.add(nextCharacter);
                 }
             }
         }
-        return monsters;
+        return characters;
     }
 
     /*
@@ -186,7 +187,6 @@ public class LegendsGame2 extends RPGGame2 implements Playable
             placeMonstersOnBoard(); // Place monsters on board every 8 rounds
         }
         String strInput = "";
-        int numInput = 0;
         ArrayList<Hero> heros = getPlayer().getHeroes();
         for (Hero hero : heros) {
             System.out.println(getBoard());
@@ -195,23 +195,7 @@ public class LegendsGame2 extends RPGGame2 implements Playable
             Cell currLocation = getLocation(hero);
             
             currLocation = getLocation(hero);
-        
-            if (currLocation instanceof BushCell)
-            {
-                int increase = (int) (hero.getDexterity() * 0.1);
-                hero.increaseDexterity(increase);
-            }
-            else if (currLocation instanceof CaveCell)
-            {
-                int increase = (int) (hero.getAgility() * 0.1);
-                hero.increaseAgility(increase);
-            }
-            else if (currLocation instanceof KoulouCell)
-            {
-                int increase = (int) (hero.getStrength() * 0.1);
-                hero.increaseStrength(increase);
-            }
-            else if (currLocation instanceof NexusCell)
+            if (currLocation instanceof NexusCell)
             {
                 System.out.println("Would you like to enter the market? (yes/no)");
                 strInput = input.yesNo();
@@ -221,18 +205,15 @@ public class LegendsGame2 extends RPGGame2 implements Playable
                     market.open(hero);
                 }
             }
-            if (monstersWithinRange(hero).size() > 0)
-            {
-                // TODO: If monster within range, start battle
-            }
-
+            // TODO: If monster within range, start battle
+            
 
             ArrayList<String> choicesList = getValidChoices(hero);
             String[] choices = new String[choicesList.size()];
             choicesList.toArray(choices);
             System.out.println("What would you like to do for " + hero.getName() + "?");
             strInput = input.inputString(choices).toUpperCase();
-            Cell currLocation = getLocation(hero);
+            currLocation = getLocation(hero);
             switch (strInput)
             {
                 case "Q": quit();
