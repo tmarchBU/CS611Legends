@@ -127,6 +127,57 @@ public class LegendsGame2 extends RPGGame2 implements Playable
         return choices;
     }
 
+    private ArrayList<RPGCharacter>characterWithinRange(RPGCharacter character) 
+    {
+        Cell heroCell = getLocation(character);
+        Cell above = heroCell.getAbove();
+        Cell below = heroCell.getBelow();
+        Cell left = heroCell.getLeft();
+        Cell right = heroCell.getRight();
+        ArrayList<RPGCharacter> characters = new ArrayList<RPGCharacter>();
+        if (above != null && above.enterable())
+        {
+            for (RPGCharacter nextCharacter : above.getCharacters())
+            {
+                if (nextCharacter instanceof Monster)
+                {
+                    characters.add(nextCharacter);
+                }
+            }
+        }
+        if (below != null && below.enterable())
+        {
+            for (RPGCharacter nextCharacter : below.getCharacters())
+            {
+                if (nextCharacter instanceof Monster)
+                {
+                    characters.add(nextCharacter);
+                }
+            }
+        }
+        if (left != null && left.enterable())
+        {
+            for (RPGCharacter nextCharacter : left.getCharacters())
+            {
+                if (nextCharacter instanceof Monster)
+                {
+                    characters.add(nextCharacter);
+                }
+            }
+        }
+        if (right != null && right.enterable())
+        {
+            for (RPGCharacter nextCharacter : right.getCharacters())
+            {
+                if (nextCharacter instanceof Monster)
+                {
+                    characters.add(nextCharacter);
+                }
+            }
+        }
+        return characters;
+    }
+
     /*
     playRound - plays one "round" on the board, AKA does one move by the player
     */
@@ -136,7 +187,6 @@ public class LegendsGame2 extends RPGGame2 implements Playable
             placeMonstersOnBoard(); // Place monsters on board every 8 rounds
         }
         String strInput = "";
-        int numInput = 0;
         ArrayList<Hero> heros = getPlayer().getHeroes();
         for (Hero hero : heros) {
             System.out.println(getBoard());
@@ -145,23 +195,7 @@ public class LegendsGame2 extends RPGGame2 implements Playable
             Cell currLocation = getLocation(hero);
             
             currLocation = getLocation(hero);
-        
-            if (currLocation instanceof BushCell)
-            {
-                int increase = (int) (hero.getDexterity() * 0.1);
-                hero.increaseDexterity(increase);
-            }
-            else if (currLocation instanceof CaveCell)
-            {
-                int increase = (int) (hero.getAgility() * 0.1);
-                hero.increaseAgility(increase);
-            }
-            else if (currLocation instanceof KoulouCell)
-            {
-                int increase = (int) (hero.getStrength() * 0.1);
-                hero.increaseStrength(increase);
-            }
-            else if (currLocation instanceof NexusCell)
+            if (currLocation instanceof NexusCell)
             {
                 System.out.println("Would you like to enter the market? (yes/no)");
                 strInput = input.yesNo();
@@ -171,16 +205,15 @@ public class LegendsGame2 extends RPGGame2 implements Playable
                     market.open(hero);
                 }
             }
-            
             // TODO: If monster within range, start battle
-
+            
 
             ArrayList<String> choicesList = getValidChoices(hero);
             String[] choices = new String[choicesList.size()];
             choicesList.toArray(choices);
             System.out.println("What would you like to do for " + hero.getName() + "?");
             strInput = input.inputString(choices).toUpperCase();
-            Cell currLocation = getLocation(hero);
+            currLocation = getLocation(hero);
             switch (strInput)
             {
                 case "Q": quit();
