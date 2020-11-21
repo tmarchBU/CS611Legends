@@ -104,26 +104,32 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     {
         Cell location = hero.getLocation();
         ArrayList<String> choices = new ArrayList<String>();
-        choices.add("Q");
-        choices.add("H");
-        choices.add("I");
-        if (location.getAbove() != null && location.getAbove().enterable())
+        if (hero.characterWithinRange())
         {
-            choices.add("W");
+            // TODO: IMPLEMENT ATTACK CHOICES
         }
-        if (location.getBelow() != null && location.getBelow().enterable())
+        else
         {
-            choices.add("S");
+            choices.add("Q");
+            choices.add("H");
+            choices.add("I");
+            if (location.getAbove() != null && location.getAbove().enterable())
+            {
+                choices.add("W");
+            }
+            if (location.getBelow() != null && location.getBelow().enterable())
+            {
+                choices.add("S");
+            }
+            if (location.getLeft() != null && location.getLeft().enterable())
+            {
+                choices.add("A");
+            }
+            if (location.getRight() != null && location.getRight().enterable())
+            {
+                choices.add("D");
+            }
         }
-        if (location.getLeft() != null && location.getLeft().enterable())
-        {
-            choices.add("A");
-        }
-        if (location.getRight() != null && location.getRight().enterable())
-        {
-            choices.add("D");
-        }
-        
         return choices;
     }
 
@@ -179,12 +185,27 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     }
 
     /*
+    highestHeroLevel - returns the highest hero level for the current team. Primarily
+    used for spawning valid monsters
+    */
+    private int highestHeroLevel() {
+        ArrayList<Hero> heros = getPlayer().getHeroes();
+        int level = 0;
+        for (Hero hero : heros) {
+            int tmpLevel = hero.getLevel();
+            if (tmpLevel > level) level = tmpLevel;
+        }
+        return level;
+    }
+
+    /*
     playRound - plays one "round" on the board, AKA does one move by the player
     */
     private void playRound()
     {
         if (round % 8 == 0) {
-            placeMonstersOnBoard(); // Place monsters on board every 8 rounds
+            int level = highestHeroLevel();
+            placeMonstersOnBoard(level); // Place monsters on board every 8 rounds
         }
         String strInput = "";
         ArrayList<Hero> heros = getPlayer().getHeroes();
@@ -326,7 +347,7 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     * placeMonsterOnBoard - Place three randomly picked monsters on the top of 
     * the board when called. One monster is placed in exactly one lane
     */
-    private void placeMonstersOnBoard()
+    private void placeMonstersOnBoard(int level)
     {
         int row = 0;
         ArrayList<RPGCharacter> monsters = new ArrayList<RPGCharacter>();
@@ -334,7 +355,7 @@ public class LegendsGame2 extends RPGGame2 implements Playable
 
         for (int i = 0; i < size; i++)
         {
-            Monster monster = monsterFactory.getRandomMonster();
+            Monster monster = monsterFactory.getMonsterWithLevel(level);
             monsters.add(monster);
         }
         ArrayList<RPGCharacter> chars = new ArrayList<RPGCharacter>();
