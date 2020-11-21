@@ -133,57 +133,6 @@ public class LegendsGame2 extends RPGGame2 implements Playable
         return choices;
     }
 
-    private ArrayList<RPGCharacter>characterWithinRange(RPGCharacter character) 
-    {
-        Cell heroCell = getLocation(character);
-        Cell above = heroCell.getAbove();
-        Cell below = heroCell.getBelow();
-        Cell left = heroCell.getLeft();
-        Cell right = heroCell.getRight();
-        ArrayList<RPGCharacter> characters = new ArrayList<RPGCharacter>();
-        if (above != null && above.enterable())
-        {
-            for (RPGCharacter nextCharacter : above.getCharacters())
-            {
-                if (nextCharacter instanceof Monster)
-                {
-                    characters.add(nextCharacter);
-                }
-            }
-        }
-        if (below != null && below.enterable())
-        {
-            for (RPGCharacter nextCharacter : below.getCharacters())
-            {
-                if (nextCharacter instanceof Monster)
-                {
-                    characters.add(nextCharacter);
-                }
-            }
-        }
-        if (left != null && left.enterable())
-        {
-            for (RPGCharacter nextCharacter : left.getCharacters())
-            {
-                if (nextCharacter instanceof Monster)
-                {
-                    characters.add(nextCharacter);
-                }
-            }
-        }
-        if (right != null && right.enterable())
-        {
-            for (RPGCharacter nextCharacter : right.getCharacters())
-            {
-                if (nextCharacter instanceof Monster)
-                {
-                    characters.add(nextCharacter);
-                }
-            }
-        }
-        return characters;
-    }
-
     /*
     highestHeroLevel - returns the highest hero level for the current team. Primarily
     used for spawning valid monsters
