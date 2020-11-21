@@ -21,7 +21,6 @@ public abstract class RPGCharacter extends Character implements Battleable
     private int mana;
     private int maxMana;
     private Cell location;
-    private Cell spawnPoint;
 
     /*
     CONSTRUCTORS
@@ -76,11 +75,6 @@ public abstract class RPGCharacter extends Character implements Battleable
         this.location = cell;
     }
 
-    public void setSpawnPoint(Cell cell)
-    {
-        this.spawnPoint = cell;
-    }
-
     /*
     ACCESSORS
     */
@@ -117,11 +111,6 @@ public abstract class RPGCharacter extends Character implements Battleable
     public Cell getLocation()
     {
         return location;
-    }
-
-    public Cell getSpawnPoint()
-    {
-        return spawnPoint;
     }
 
     /*

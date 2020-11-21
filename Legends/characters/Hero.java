@@ -15,6 +15,7 @@ Imported Libraries
 */
 import java.util.ArrayList;
 import GUI_helper.TableHelper;
+import game.map.Cell;
 import game.rules.LegendsRules;
 import items.armor.*;
 import items.consumables.Consumable;
@@ -33,6 +34,7 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
     private ArmorType armor;
     private HandType weaponsAndShields;
     private ArrayList<Spell> spells;
+    private Cell spawnPoint;
 
     /*
     CONSTUCTORS
@@ -93,6 +95,11 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
         this.spells = spells;
     }
 
+    public void setSpawnPoint(Cell cell)
+    {
+        this.spawnPoint = cell;
+    }
+
     /*
     ACCESSORS
     */
@@ -135,6 +142,11 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
     public HandType getWeaponsAndShields()
     {
         return weaponsAndShields;
+    }
+
+    public Cell getSpawnPoint()
+    {
+        return spawnPoint;
     }
 
     /*
