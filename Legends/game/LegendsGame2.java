@@ -192,7 +192,7 @@ public class LegendsGame2 extends RPGGame2 implements Playable
                 
                 if (targetMonster.isDead()) 
                 {
-                    // TODO: Hero should gain xp and money when monster dies
+                    resetHero(hero);
                     getMonsters().remove(targetMonster);
                 }
             }
@@ -239,7 +239,7 @@ public class LegendsGame2 extends RPGGame2 implements Playable
                     battle.attack(monster, targetHero);
                     if (targetHero.isDead())
                     {
-                        // TODO: Implement hero reset
+                        resetHero(targetHero);
                     }
                 }
                 else
@@ -254,17 +254,18 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     /*
     resetHeroes - resets heroes to full health and mana, and half health if they died in battle
     */
-    private void resetHeroes()
+    private void resetHero(Hero hero)
     {
-        for (int i = 0; i < getPlayer().getHeroes().size(); i++)
+        int health = hero.getMaxHealth();
+        int mana = hero.getMaxMana();
+        if (hero.isDead()) 
         {
-            Hero hero = getPlayer().getHeroes().get(i);
-            if (hero.isDead())
-            {
-                hero.setHealth((int) (hero.getMaxHealth()*0.5));
-            }
-            hero.setMana(hero.getMaxMana());
+            health = (int) (health * 0.5);
+            // TODO: Reset hero's location to spawn point when hero dies
         }
+    
+        hero.setHealth(health);
+        hero.setMana(mana);
     }
 
     /*
