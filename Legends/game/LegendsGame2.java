@@ -31,6 +31,8 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     private PotionFactory potionFactory;
     private SpellFactory spellFactory;
     private InputUtility input;
+    private Battle2 battle;
+    private ArrayList<Monster> monsters;
 
     /*
     CONSTRUCTOR
@@ -46,6 +48,8 @@ public class LegendsGame2 extends RPGGame2 implements Playable
         spellFactory = new SpellFactory();
         input = InputUtility.getSingleInstance();
         round = 0;
+        battle = new Battle2();
+        monsters = new ArrayList<Monster>();
     }
 
     /*
@@ -59,6 +63,11 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     public LegendsBoard getBoard()
     {
         return (LegendsBoard) super.getBoard();
+    }
+
+    public ArrayList<Monster> getMonsters()
+    {
+        return monsters;
     }
 
     /*
@@ -104,31 +113,25 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     {
         Cell location = hero.getLocation();
         ArrayList<String> choices = new ArrayList<String>();
-        if (hero.characterWithinRange())
+    
+        choices.add("Q");
+        choices.add("H");
+        choices.add("I");
+        if (location.getAbove() != null && location.getAbove().enterable())
         {
-            // TODO: IMPLEMENT ATTACK CHOICES
+            choices.add("W");
         }
-        else
+        if (location.getBelow() != null && location.getBelow().enterable())
         {
-            choices.add("Q");
-            choices.add("H");
-            choices.add("I");
-            if (location.getAbove() != null && location.getAbove().enterable())
-            {
-                choices.add("W");
-            }
-            if (location.getBelow() != null && location.getBelow().enterable())
-            {
-                choices.add("S");
-            }
-            if (location.getLeft() != null && location.getLeft().enterable())
-            {
-                choices.add("A");
-            }
-            if (location.getRight() != null && location.getRight().enterable())
-            {
-                choices.add("D");
-            }
+            choices.add("S");
+        }
+        if (location.getLeft() != null && location.getLeft().enterable())
+        {
+            choices.add("A");
+        }
+        if (location.getRight() != null && location.getRight().enterable())
+        {
+            choices.add("D");
         }
         return choices;
     }
@@ -157,27 +160,43 @@ public class LegendsGame2 extends RPGGame2 implements Playable
             placeMonstersOnBoard(level); // Place monsters on board every 8 rounds
         }
         String strInput = "";
+        int numInput = 0;
         ArrayList<Hero> heros = getPlayer().getHeroes();
         for (Hero hero : heros) {
             System.out.println(getBoard());
             getBoard().printLegend();
             TableHelper.printHeroes(getPlayer().getHeroes());
             Cell currLocation = getLocation(hero);
-            
-            currLocation = getLocation(hero);
-            if (currLocation instanceof NexusCell)
+            ArrayList<RPGCharacter> monsters = hero.characterWithinRange();
+            if (monsters.size() != 0)
             {
-                System.out.println("Would you like to enter the market? (yes/no)");
-                strInput = input.yesNo();
-                if (strInput.equalsIgnoreCase("YES"))
+                Monster targetMonster = (Monster) monsters.get(0);
+                // TODO: IMPLEMENT ATTACK CHOICES
+                System.out.println("You have encountered a monster. What would you like to do?");
+                System.out.println("1) Attack | 2) Cast a Spell | 3) Open Inventory (change or consume something)");
+                numInput = input.inputInt(1, 3);
+                switch(numInput) 
                 {
-                    Market market = new Market(armorFactory, handheldFactory, potionFactory, spellFactory);
-                    market.open(hero);
+                    // attack
+                    case 1: 
+                        battle.attack(hero, targetMonster);
+                        break;
+                    // cast spell
+                    case 2:
+                        battle.castSpell(hero, targetMonster);
+                        break;
+                    // open inventory
+                    case 3:
+                        openInventory();
+                        break;
                 }
             }
-            // TODO: If monster within range, start battle
+            if (currLocation instanceof NexusCell)
+            {
+                // TODO: We could check winning condition here by checking if the is a endpoint nexus cell
+            }     
             
-
+            // If nothing else to do in current cell, prompt to move or view inventory
             ArrayList<String> choicesList = getValidChoices(hero);
             String[] choices = new String[choicesList.size()];
             choicesList.toArray(choices);
@@ -194,6 +213,30 @@ public class LegendsGame2 extends RPGGame2 implements Playable
                 case "I": openInventory(); break;
                 case "H": help(); break;
                 // TODO: IMPLEMENT TELEPORT
+            }
+        }
+
+        
+        // Monster movements
+        for (Monster monster : monsters)
+        {
+            Cell currLocation = monster.getLocation();
+            if (currLocation instanceof NexusCell) 
+            {
+                // TODO: Check monster winning condition
+            }
+            else
+            {
+                ArrayList<RPGCharacter> targetHeros = monster.characterWithinRange();
+                if (targetHeros.size() > 0)
+                {
+                    // TODO: ATTACK WHEN HERO WITHIN RANGE
+                }
+                else
+                {
+                    // Move one cell below if no hero nearby
+                    move(currLocation.getBelow(), monster);
+                }
             }
         }
     }
@@ -299,18 +342,19 @@ public class LegendsGame2 extends RPGGame2 implements Playable
     private void placeMonstersOnBoard(int level)
     {
         int row = 0;
-        ArrayList<RPGCharacter> monsters = new ArrayList<RPGCharacter>();
+        ArrayList<RPGCharacter> newMonsters = new ArrayList<RPGCharacter>();
         int size = LegendsValorRules.NUM_LANES;
 
         for (int i = 0; i < size; i++)
         {
             Monster monster = monsterFactory.getMonsterWithLevel(level);
+            newMonsters.add(monster);
             monsters.add(monster);
         }
         ArrayList<RPGCharacter> chars = new ArrayList<RPGCharacter>();
         
-        for (RPGCharacter monster : monsters) {
-            chars.add((RPGCharacter) monster);
+        for (RPGCharacter monster : newMonsters) {
+            chars.add(monster);
         }
         placeCharactersOnBoard(chars, row);
     }
