@@ -3,6 +3,7 @@ package characters;
 import java.util.ArrayList;
 
 import game.map.Cell;
+import game.map.Marker;
 
 /*
 File: RPGCharacter.java
@@ -23,6 +24,7 @@ public abstract class RPGCharacter extends Character implements Battleable
     private int mana;
     private int maxMana;
     private Cell location;
+    private Marker marker;
 
     /*
     CONSTRUCTORS
@@ -37,6 +39,7 @@ public abstract class RPGCharacter extends Character implements Battleable
         setMana(mana);
         setMaxMana(mana);
         setLocation(null);
+        setMarker(null);
     }
 
     /*
@@ -77,6 +80,11 @@ public abstract class RPGCharacter extends Character implements Battleable
         this.location = cell;
     }
 
+    public void setMarker(Marker marker)
+    {
+        this.marker = marker;
+    }
+
     /*
     ACCESSORS
     */
@@ -113,6 +121,11 @@ public abstract class RPGCharacter extends Character implements Battleable
     public Cell getLocation()
     {
         return location;
+    }
+
+    public Marker getMarker()
+    {
+        return marker;
     }
 
     /*

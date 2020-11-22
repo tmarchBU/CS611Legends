@@ -68,7 +68,14 @@ public class Board
             string += "|";
             for (int j = 0; j < board[0].length; j++)
             {
-                if (board[i][j].getMarker() == null)
+                if (board[i][j].getCharacters().size() != 0)
+                {
+                    for (int x = 0; x < board[i][j].getCharacters().size(); x++)
+                    {
+                        string += board[i][j].getCharacters().get(x).getMarker();
+                    }
+                }
+                else if (board[i][j].getMarker() == null)
                 {                    
                     string += index;
                     if (index < 10)
