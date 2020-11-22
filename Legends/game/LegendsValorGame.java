@@ -199,7 +199,7 @@ public class LegendsValorGame extends RPGGame implements Playable
             }
             if (currLocation instanceof NexusCell)
             {
-                if (!currLocation.getAbove().enterable())
+                if (currLocation.getAbove() == null)
                 {
                     // TODO: Hero wins
                 }
@@ -207,9 +207,14 @@ public class LegendsValorGame extends RPGGame implements Playable
             
             // If nothing else to do in current cell, prompt to move or view inventory
             ArrayList<String> choicesList = getValidChoices(hero);
+            for (String choice : choicesList)
+            {
+                System.out.println(choice);
+            }
             String[] choices = new String[choicesList.size()];
             choicesList.toArray(choices);
             System.out.println("What would you like to do for " + hero.getName() + "?");
+            
             strInput = input.inputString(choices).toUpperCase();
             currLocation = getLocation(hero);
             switch (strInput)
@@ -232,7 +237,7 @@ public class LegendsValorGame extends RPGGame implements Playable
             Cell currLocation = monster.getLocation();
             if (currLocation instanceof NexusCell) 
             {
-                if (!currLocation.getBelow().enterable())
+                if (currLocation.getBelow() == null)
                 {
                     // TODO: Monster wins
                 }
@@ -324,7 +329,7 @@ public class LegendsValorGame extends RPGGame implements Playable
 
     private void placeCharactersOnBoard(ArrayList<RPGCharacter> characters, int row) {
         int numLanes = LegendsValorRules.NUM_LANES;
-        int laneWidth = row / numLanes;
+        int laneWidth = LegendsValorRules.BOARD_HEIGHT / numLanes;
         int lane = 0;
         for (RPGCharacter c : characters) {
             int cellNum = RandomHelper.randomNum(laneWidth - 1);
@@ -332,6 +337,7 @@ public class LegendsValorGame extends RPGGame implements Playable
             Moveable cell = (Moveable) getBoard().getCell(row, col);
             if (cell instanceof NexusCell) {
                 cell.enter(c);
+                c.setLocation((Cell) cell);
                 lane++;
             }
         }
