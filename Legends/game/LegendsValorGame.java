@@ -170,10 +170,13 @@ public class LegendsValorGame extends RPGGame implements Playable
             getBoard().printLegend();
             TableHelper.printHeroes(getPlayer().getHeroes());
             Cell currLocation = getLocation(hero);
-            ArrayList<RPGCharacter> monsters = hero.characterWithinRange();
-            if (monsters.size() != 0)
+            ArrayList<RPGCharacter> nearbyMonsters = hero.characterWithinRange();
+            for (RPGCharacter c : nearbyMonsters) {
+                System.out.println(c.getName());
+            }
+            if (nearbyMonsters.size() != 0)
             {
-                Monster targetMonster = (Monster) monsters.get(0);
+                Monster targetMonster = (Monster) nearbyMonsters.get(0);
                 System.out.println("You have encountered a monster. What would you like to do?");
                 System.out.println("1) Attack | 2) Cast a Spell | 3) Open Inventory (change or consume something)");
                 numInput = input.inputInt(1, 3);
@@ -338,10 +341,12 @@ public class LegendsValorGame extends RPGGame implements Playable
     private void placeCharactersOnBoard(ArrayList<RPGCharacter> characters, int row) {
         int numLanes = LegendsValorRules.NUM_LANES;
         int laneWidth = LegendsValorRules.BOARD_HEIGHT / numLanes;
+        
         int lane = 0;
         for (RPGCharacter c : characters) {
-            int cellNum = RandomHelper.randomNum(laneWidth - 1);
-            int col = cellNum + lane;
+            int cellNum = RandomHelper.randomNum(laneWidth);
+            int col = cellNum + lane * (laneWidth + 1);
+            System.out.println(col);
             Moveable cell = (Moveable) getBoard().getCell(row, col);
             if (cell instanceof NexusCell) {
                 cell.enter(c);
@@ -362,7 +367,7 @@ public class LegendsValorGame extends RPGGame implements Playable
         ArrayList<RPGCharacter> chars = new ArrayList<RPGCharacter>();
         
         for (Hero hero : heros) {
-            chars.add((RPGCharacter) hero);
+            chars.add(hero);
         }
         placeCharactersOnBoard(chars, row);
     }
