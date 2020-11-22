@@ -13,6 +13,8 @@ Description: A subclass of RPGGame that plays the game of Legends of Valor
 Imported Libraries
 */
 import java.util.ArrayList;
+
+import GUI_helper.Icons;
 import GUI_helper.TableHelper;
 import characters.*;
 import factories.*;
@@ -308,6 +310,10 @@ public class LegendsValorGame extends RPGGame implements Playable
         options.add(heroFactory.getHero("SORCERER"));
         options.add(heroFactory.getHero("WARRIOR"));
         options.add(heroFactory.getHero("PALADIN"));
+        ArrayList<Marker> markers = new ArrayList<Marker>();
+        markers.add(new Marker(Icons.HERO1_ICON));
+        markers.add(new Marker(Icons.HERO2_ICON));
+        markers.add(new Marker(Icons.HERO3_ICON));
 
         System.out.println("Please choose the three heros that will be on your team");
         
@@ -316,7 +322,9 @@ public class LegendsValorGame extends RPGGame implements Playable
             TableHelper.printHeroes(options);
             System.out.println("Choose wisely. Enter the number of the hero you would like to add to your team.");
             int choice = input.inputInt(1, options.size());
-            getPlayer().getHeroes().add(options.remove(choice - 1));
+            Hero hero = options.remove(choice - 1);
+            hero.setMarker(markers.remove(0));
+            getPlayer().getHeroes().add(hero);
         }
         System.out.println("This is your group.");
         TableHelper.printHeroes(getPlayer().getHeroes());
