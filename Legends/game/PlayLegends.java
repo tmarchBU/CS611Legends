@@ -42,7 +42,8 @@ public class PlayLegends
             LegendsRules.configure();
         }
         
-        LegendsGame game = new LegendsGame(player);
+        // LegendsGame game = new LegendsGame(player);
+        LegendsValorGame game = new LegendsValorGame(player);
 
         System.out.println("Press Enter to begin the game");
 
