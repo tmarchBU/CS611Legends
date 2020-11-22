@@ -94,7 +94,7 @@ public class MonsterFactory
             while (!rightLevel)
             {
                 temp = RandomHelper.getRandom(exoskeletons);
-                if (Integer.parseInt(temp[3]) == level)
+                if (Integer.parseInt(temp[1]) == level)
                 {
                     rightLevel = true;
                 }
@@ -110,7 +110,7 @@ public class MonsterFactory
             while (!rightLevel)
             {
                 temp = RandomHelper.getRandom(spirits);
-                if (Integer.parseInt(temp[3]) == level)
+                if (Integer.parseInt(temp[1]) == level)
                 {
                     rightLevel = true;
                 }
