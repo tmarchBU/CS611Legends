@@ -171,7 +171,6 @@ public class LegendsGame2 extends RPGGame2 implements Playable
             if (monsters.size() != 0)
             {
                 Monster targetMonster = (Monster) monsters.get(0);
-                // TODO: IMPLEMENT ATTACK CHOICES
                 System.out.println("You have encountered a monster. What would you like to do?");
                 System.out.println("1) Attack | 2) Cast a Spell | 3) Open Inventory (change or consume something)");
                 numInput = input.inputInt(1, 3);
@@ -189,6 +188,12 @@ public class LegendsGame2 extends RPGGame2 implements Playable
                     case 3:
                         openInventory();
                         break;
+                }
+                
+                if (targetMonster.isDead()) 
+                {
+                    // TODO: Hero should gain xp and money when monster dies
+                    getMonsters().remove(targetMonster);
                 }
             }
             if (currLocation instanceof NexusCell)
@@ -230,7 +235,12 @@ public class LegendsGame2 extends RPGGame2 implements Playable
                 ArrayList<RPGCharacter> targetHeros = monster.characterWithinRange();
                 if (targetHeros.size() > 0)
                 {
-                    // TODO: ATTACK WHEN HERO WITHIN RANGE
+                    Hero targetHero = (Hero) targetHeros.get(0);
+                    battle.attack(monster, targetHero);
+                    if (targetHero.isDead())
+                    {
+                        // TODO: Implement hero reset
+                    }
                 }
                 else
                 {
