@@ -78,7 +78,7 @@ public class MonsterFactory
             while (!rightLevel)
             {
                 temp = RandomHelper.getRandom(dragons);
-                if (Integer.parseInt(temp[3]) == level)
+                if (Integer.parseInt(temp[1]) == level)
                 {
                     rightLevel = true;
                 }
