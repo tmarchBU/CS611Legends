@@ -61,6 +61,8 @@ public class LegendsValorBoard extends Board
                 }
             }
         }
+
+        setCellAdjacents();
     }
 
     public void printLegend()
