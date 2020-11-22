@@ -21,7 +21,7 @@ import game.player.LegendsPlayer;
 import game.rules.LegendsValorRules;
 import utilities.*;
 
-public class LegendsValorGame extends RPGGame2 implements Playable 
+public class LegendsValorGame extends RPGGame implements Playable 
 {
     private int round;
     private HeroFactory heroFactory;
@@ -60,9 +60,9 @@ public class LegendsValorGame extends RPGGame2 implements Playable
         return (LegendsPlayer) super.getPlayer();
     }
 
-    public LegendsBoard getBoard()
+    public LegendsValorBoard getBoard()
     {
-        return (LegendsBoard) super.getBoard();
+        return (LegendsValorBoard) super.getBoard();
     }
 
     public ArrayList<Monster> getMonsters()
@@ -81,7 +81,7 @@ public class LegendsValorGame extends RPGGame2 implements Playable
         System.out.println("Press Enter to Begin.");
         input.pressEnter();
         placeHerosOnBoard();
-        
+        System.out.println("Game loaded, have fun!!");
         while(active)
         {
             playRound();
@@ -158,6 +158,7 @@ public class LegendsValorGame extends RPGGame2 implements Playable
         if (round % 8 == 0) {
             int level = highestHeroLevel();
             placeMonstersOnBoard(level); // Place monsters on board every 8 rounds
+            System.out.println("New monsters have been spotted!!");
         }
         String strInput = "";
         int numInput = 0;
@@ -361,7 +362,6 @@ public class LegendsValorGame extends RPGGame2 implements Playable
         int row = 0;
         ArrayList<RPGCharacter> newMonsters = new ArrayList<RPGCharacter>();
         int size = LegendsValorRules.NUM_LANES;
-
         for (int i = 0; i < size; i++)
         {
             Monster monster = monsterFactory.getMonsterWithLevel(level);

@@ -1,13 +1,16 @@
 package game;
 
+import characters.RPGCharacter;
+
 /*
-File: RPGGame.java
-Developer: Tristan Marchand
-Email: tmarch@bu.edu
-BU ID: U13495035
-Last Edited: Tuesday, November 10, 2020
+File: RPGGame2.java (based on RPGGame.java)
+Developer: Tristan Marchand, Shuaike Zhou
+Email: tmarch@bu.edu, szhou97@bu.edu
+Last Edited: Thursday, November 19, 2020
 
 Description: Superclass RPGGame that represents any rpggame with a map and a location of a player
+UPDATE: Now RPGGame no longer keeps track of player location, instead each rpg character shall
+keep track of its own location
 */
 
 /*
@@ -19,7 +22,6 @@ import game.player.Player;
 public abstract class RPGGame extends SinglePlayerGame 
 {
     private Board board;
-    private Cell playerLocation;
 
     /*
     CONSTRUCTORS
@@ -28,7 +30,6 @@ public abstract class RPGGame extends SinglePlayerGame
     {
         super(player, name);
         setBoard(board);
-        setPlayerLocation(null);
     }
 
     /*
@@ -39,38 +40,31 @@ public abstract class RPGGame extends SinglePlayerGame
         this.board = board;
     }
 
-    public void setPlayerLocation(Cell playerLocation)
-    {
-        this.playerLocation = playerLocation;
-    }
-
     /*
     ACCESSORS
     */
-    public Cell getPlayerLocation()
-    {
-        return playerLocation;
-    }
-
     public Board getBoard()
     {
         return board;
     }
 
+    public Cell getLocation(RPGCharacter character)
+    {
+        return character.getLocation();
+    }
+
     /*
     move - moves a player to a cell and returns true, or returns false if not able to move there
     */
-    public boolean move(Moveable cell)
+    public boolean move(Moveable nextCell, RPGCharacter character)
     {
-        if (getPlayerLocation() == null || cell == null || !cell.enterable())
+        Cell currentCell = character.getLocation();
+        if (currentCell == null || nextCell == null || !nextCell.enterable())
         {
             return false;
-        }
-        else
-        {
-            getPlayerLocation().exit();
-            cell.enter(getPlayer().getMarker());
-            setPlayerLocation((Cell) cell);
+        } else {
+            currentCell.exit(character);
+            nextCell.enter(character);
             return true;
         }
     }
