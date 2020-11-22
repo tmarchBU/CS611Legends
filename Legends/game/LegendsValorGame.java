@@ -21,7 +21,7 @@ import game.player.LegendsPlayer;
 import game.rules.LegendsValorRules;
 import utilities.*;
 
-public class LegendsValorGame extends RPGGame2 implements Playable 
+public class LegendsValorGame extends RPGGame implements Playable 
 {
     private int round;
     private HeroFactory heroFactory;
