@@ -104,7 +104,7 @@ public class LegendsValorGame extends RPGGame implements Playable
     */
     private void help()
     {
-        System.out.println("| w, a, s, d = move | i = inventory | q = quit | h = help |");
+        System.out.println("| w, a, s, d = move | b = back to spawn point nexus | t = teleport | i = inventory | q = quit | h = help |");
     }
 
     private boolean validLocation(Cell nextCell, Cell monsterCell) {
@@ -189,6 +189,7 @@ public class LegendsValorGame extends RPGGame implements Playable
         ArrayList<Hero> heros = getPlayer().getHeroes();
         for (Hero hero : heros) {
             RPGCharacter targetMonster = null;
+            help();
             System.out.println(getBoard());
             getBoard().printLegend();
             TableHelper.printHeroes(getPlayer().getHeroes());
