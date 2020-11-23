@@ -22,7 +22,6 @@ public interface Battleable
 	public void decreaseAttackValue(int attackValue);
 	public void decreaseDodgeChance(int dodgeChance);
 	public String getName();
-	public boolean isFighting();
 	public boolean isDead();
 	public int getHealth();
 	public int getMana();
