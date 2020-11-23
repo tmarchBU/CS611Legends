@@ -1,7 +1,6 @@
 package game.map;
 
-import GUI_helper.Icons;
-import GUI_helper.TextColors;
+import GUI_helper.*;
 
 public class NexusCell extends Cell
 {
