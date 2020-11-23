@@ -260,6 +260,7 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
 
         System.out.println("Would you like to change your armor type? (yes/no)");
         strInput = input.yesNo();
+        ArrayList<Armor> items = null;
         if (strInput.equalsIgnoreCase("YES"))
         {
             System.out.println("What type of armor would you like to equip?");
@@ -267,12 +268,11 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
             numInput = input.inputInt(1, 3);
             switch(numInput)
             {
-                case 1: setArmor(new FullArmor()); break;
-                case 2: setArmor(new SplitArmor()); break;
+                case 1: setArmor(new FullArmor()); items = ((LegendsInventory) getInventory()).getFullArmorItems(); break;
+                case 2: setArmor(new SplitArmor()); items = ((LegendsInventory) getInventory()).getSplitArmorItems(); break;
                 case 3: setArmor(new NoArmor()); return; 
             }
         }
-        ArrayList<Armor> items = ((LegendsInventory) getInventory()).getArmorItems();
         if (items.size() == 0)
         {
             System.out.println("You have no armor to equip.");
@@ -283,7 +283,7 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
         }
 
         TableHelper.printArmor(items);
-        System.out.println("What armor would you like to equip (number of armor piece)? Please equip an armor piece for your armor type only or it will break :)");
+        System.out.println("What armor would you like to equip (number of armor piece)?");
         System.out.println("Input 0 to skip.");
         
         numInput = input.inputInt(0, items.size());
@@ -317,16 +317,16 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
         if (strInput.equalsIgnoreCase("YES"))
         {
             System.out.println("What type of weapon would you like to equip?");
-            System.out.println("1) Two Handed Weapon | 2) One Handed Weapons | 3) No Weapons");
+            System.out.println("1) One Handed Weapons | 2) Two Handed Weapon | 3) No Weapons");
             numInput = input.inputInt(1, 3);
             switch(numInput)
             {
-                case 1: setWeaponsAndShields(new TwoHanded()); break;
-                case 2: setWeaponsAndShields(new OneHanded()); break;
+                case 1: setWeaponsAndShields(new OneHanded()); break;
+                case 2: setWeaponsAndShields(new TwoHanded()); break;
                 case 3: setWeaponsAndShields(new NoWeapon()); return; 
             }
         }
-        ArrayList<Handheld> items = ((LegendsInventory) getInventory()).getHandheldItems();
+        ArrayList<Handheld> items = ((LegendsInventory) getInventory()).getHandheldItems(numInput);
         if (items.size() == 0)
         {
             System.out.println("You have no weapons to equip.");
@@ -337,7 +337,7 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
         }
 
         TableHelper.printHandhelds(items);
-        System.out.println("What weapons would you like to equip (number of weapon/shield)? Please equip an weapon for your weapon type only or it will break :)");
+        System.out.println("What weapons would you like to equip (number of weapon/shield)?");
         System.out.println("Input 0 to skip.");
 
         numInput = input.inputInt(0, items.size());
@@ -373,6 +373,8 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
         
         numInput = input.inputInt(1, items.size());
         Consumable item = items.get(numInput - 1);
+
+        getInventory().getItems().remove(item);
 
         item.consume(this);
     }
