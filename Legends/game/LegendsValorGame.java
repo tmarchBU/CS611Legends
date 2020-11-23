@@ -219,6 +219,11 @@ public class LegendsValorGame extends RPGGame implements Playable
                     if (targetMonster.isDead())
                     {
                         resetHero(hero);
+                        System.out.println(hero.getName() + " has defeated a " + targetMonster.getName());
+                        hero.increaseExperience((int) LegendsValorRules.HERO_EXPERIENCE_GAIN_LEVEL);
+                        System.out.println(hero.getName() + " gained " + ((int) LegendsRules.HERO_EXPERIENCE_GAIN_LEVEL) + " experience.");
+                        hero.increaseMoney((int) (LegendsValorRules.MONSTER_MONEY_LEVEL * targetMonster.getLevel()));
+                        System.out.println(hero.getName() + " gained " + ((int) (LegendsValorRules.MONSTER_MONEY_LEVEL * targetMonster.getLevel())) + " money.");
                         targetMonster.getLocation().exit(targetMonster);
                         getMonsters().remove(targetMonster);
                     }
