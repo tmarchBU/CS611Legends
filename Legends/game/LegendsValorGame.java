@@ -157,6 +157,7 @@ public class LegendsValorGame extends RPGGame implements Playable
     */
     private void playRound()
     {
+        
         if (round % 8 == 0) {
             int level = highestHeroLevel();
             placeMonstersOnBoard(level); // Place monsters on board every 8 rounds
@@ -166,19 +167,33 @@ public class LegendsValorGame extends RPGGame implements Playable
         int numInput = 0;
         ArrayList<Hero> heros = getPlayer().getHeroes();
         for (Hero hero : heros) {
+            
             System.out.println(getBoard());
             getBoard().printLegend();
             TableHelper.printHeroes(getPlayer().getHeroes());
             Cell currLocation = getLocation(hero);
+
+            if (currLocation instanceof NexusCell)
+            {
+                if (currLocation.getAbove() == null)
+                {
+                    // TODO: Hero wins
+                }
+            }    
+            // Check for monsters within range
             ArrayList<RPGCharacter> nearbyMonsters = hero.characterWithinRange();
             if (nearbyMonsters.size() != 0)
             {
-                
                 RPGCharacter targetMonster = nearbyMonsters.get(0);
                 if (targetMonster instanceof Monster) 
                 {
+                    hero.setFighting(true);
                     targetMonster.setFighting(true);
-                    System.out.println("You have encountered a " + targetMonster.getName() + ". What would you like to do?");
+                    System.out.println(hero.getName() 
+                        + " is fighting a " 
+                        + targetMonster.getName() 
+                        + "! What would you like to do?");
+                    
                     System.out.println("1) Attack | 2) Cast a Spell | 3) Open Inventory (change or consume something)");
                     numInput = input.inputInt(1, 3);
                     switch(numInput) 
@@ -212,37 +227,30 @@ public class LegendsValorGame extends RPGGame implements Playable
                         getMonsters().remove(targetMonster);
                     }
                 }
-            }
-
-            if (currLocation instanceof NexusCell)
+            } 
+            
+            if (!hero.isFighting())
             {
-                if (currLocation.getAbove() == null)
+                ArrayList<String> choicesList = getValidChoices(hero);
+                String[] choices = new String[choicesList.size()];
+                choicesList.toArray(choices);
+                System.out.println("What would you like to do for " + hero.getName() + "?");
+                
+                strInput = input.inputString(choices).toUpperCase();
+                currLocation = getLocation(hero);
+                switch (strInput)
                 {
-                    // TODO: Hero wins
+                    case "Q": quit();
+                    case "W": move(currLocation.getAbove(), hero); break;
+                    case "A": move(currLocation.getLeft(), hero); break;
+                    case "S": move(currLocation.getBelow(), hero); break;
+                    case "D": move(currLocation.getRight(), hero); break;
+                    case "I": openInventory(); break;
+                    case "H": help(); break;
+                    // TODO: IMPLEMENT TELEPORT
                 }
-            }     
-            
-            // If nothing else to do in current cell, prompt to move or view inventory
-            ArrayList<String> choicesList = getValidChoices(hero);
-            String[] choices = new String[choicesList.size()];
-            choicesList.toArray(choices);
-            System.out.println("What would you like to do for " + hero.getName() + "?");
-            
-            strInput = input.inputString(choices).toUpperCase();
-            currLocation = getLocation(hero);
-            switch (strInput)
-            {
-                case "Q": quit();
-                case "W": move(currLocation.getAbove(), hero); break;
-                case "A": move(currLocation.getLeft(), hero); break;
-                case "S": move(currLocation.getBelow(), hero); break;
-                case "D": move(currLocation.getRight(), hero); break;
-                case "I": openInventory(); break;
-                case "H": help(); break;
-                // TODO: IMPLEMENT TELEPORT
             }
         }
-
         
         // Monster movements
         for (Monster monster : monsters)
