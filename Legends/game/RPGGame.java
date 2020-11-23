@@ -65,6 +65,7 @@ public abstract class RPGGame extends SinglePlayerGame
         } else {
             currentCell.exit(character);
             nextCell.enter(character);
+            character.setLocation((Cell) nextCell);
             return true;
         }
     }
