@@ -268,11 +268,24 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
             numInput = input.inputInt(1, 3);
             switch(numInput)
             {
-                case 1: setArmor(new FullArmor()); items = ((LegendsInventory) getInventory()).getFullArmorItems(); break;
-                case 2: setArmor(new SplitArmor()); items = ((LegendsInventory) getInventory()).getSplitArmorItems(); break;
-                case 3: setArmor(new NoArmor()); return; 
+                case 1: setArmor(new FullArmor()); break;
+                case 2: setArmor(new SplitArmor()); break;
+                case 3: setArmor(new NoArmor()); break; 
             }
         }
+        if (getArmor() instanceof FullArmor)
+        {
+            items = ((LegendsInventory) getInventory()).getFullArmorItems();
+        }
+        if (getArmor() instanceof SplitArmor)
+        {
+            items = ((LegendsInventory) getInventory()).getSplitArmorItems();
+        }
+        if (getArmor() instanceof NoArmor)
+        {
+            return;
+        }
+        
         if (items == null || items.size() == 0)
         {
             System.out.println("You have no armor to equip.");
