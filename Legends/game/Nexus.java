@@ -346,16 +346,23 @@ public class Nexus
 
                 break;
             case 2:
-                TableHelper.printHandhelds(inventory.getHandheldItems());
+                ArrayList<Handheld> items = inventory.getHandheldItems(1);
+                ArrayList<Handheld> items2 = inventory.getHandheldItems(2);
+                while (items2.size() > 0)
+                {
+                    items.add(items2.get(0));
+                }
+                TableHelper.printHandhelds(items);
                 System.out.println("Enter the number of the item you would like to sell. (0 = none)");
-                numInput = input.inputInt(0, inventory.getHandheldItems().size()) - 1;
+                numInput = input.inputInt(0, items.size()) - 1;
 
                 if (numInput == -1)
                 {
                     break;
                 }
 
-                Handheld handheldItem = inventory.getHandheldItems().remove(numInput);
+                Handheld handheldItem = items.get(numInput);
+                inventory.getItems().remove(handheldItem);
                 hero.increaseMoney(handheldItem.getMoneyValue());
                 System.out.println("You sold " + handheldItem.getName());
 
