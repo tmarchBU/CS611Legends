@@ -171,37 +171,49 @@ public class LegendsValorGame extends RPGGame implements Playable
             TableHelper.printHeroes(getPlayer().getHeroes());
             Cell currLocation = getLocation(hero);
             ArrayList<RPGCharacter> nearbyMonsters = hero.characterWithinRange();
-            for (RPGCharacter c : nearbyMonsters) {
-                System.out.println(c.getName());
-            }
             if (nearbyMonsters.size() != 0)
             {
-                Monster targetMonster = (Monster) nearbyMonsters.get(0);
-                System.out.println("You have encountered a monster. What would you like to do?");
-                System.out.println("1) Attack | 2) Cast a Spell | 3) Open Inventory (change or consume something)");
-                numInput = input.inputInt(1, 3);
-                switch(numInput) 
-                {
-                    // attack
-                    case 1: 
-                        battle.attack(hero, targetMonster);
-                        break;
-                    // cast spell
-                    case 2:
-                        battle.castSpell(hero, targetMonster);
-                        break;
-                    // open inventory
-                    case 3:
-                        openInventory();
-                        break;
-                }
                 
-                if (targetMonster.isDead()) 
+                RPGCharacter targetMonster = nearbyMonsters.get(0);
+                if (targetMonster instanceof Monster) 
                 {
-                    resetHero(hero);
-                    getMonsters().remove(targetMonster);
+                    targetMonster.setFighting(true);
+                    System.out.println("You have encountered a " + targetMonster.getName() + ". What would you like to do?");
+                    System.out.println("1) Attack | 2) Cast a Spell | 3) Open Inventory (change or consume something)");
+                    numInput = input.inputInt(1, 3);
+                    switch(numInput) 
+                    {
+                        // attack
+                        case 1:
+                            battle.attack(hero, targetMonster);
+                            break;
+                        // cast spell
+                        case 2:
+                            battle.castSpell(hero, targetMonster);
+                            break;
+                        // open inventory
+                        case 3:
+                            openInventory();
+                            break;
+                    }
+
+                    // Monster fights back
+                    battle.attack(targetMonster, hero);
+
+                    // Check health
+                    if (hero.isDead()) 
+                    {
+                        resetHero(hero);
+                    }
+                    if (targetMonster.isDead())
+                    {
+                        resetHero(hero);
+                        targetMonster.getLocation().exit(targetMonster);
+                        getMonsters().remove(targetMonster);
+                    }
                 }
             }
+
             if (currLocation instanceof NexusCell)
             {
                 if (currLocation.getAbove() == null)
@@ -212,10 +224,6 @@ public class LegendsValorGame extends RPGGame implements Playable
             
             // If nothing else to do in current cell, prompt to move or view inventory
             ArrayList<String> choicesList = getValidChoices(hero);
-            for (String choice : choicesList)
-            {
-                System.out.println(choice);
-            }
             String[] choices = new String[choicesList.size()];
             choicesList.toArray(choices);
             System.out.println("What would you like to do for " + hero.getName() + "?");
@@ -240,26 +248,13 @@ public class LegendsValorGame extends RPGGame implements Playable
         for (Monster monster : monsters)
         {
             Cell currLocation = monster.getLocation();
-            if (currLocation instanceof NexusCell) 
+            if (currLocation instanceof NexusCell && currLocation.getBelow() == null) 
             {
-                if (currLocation.getBelow() == null)
-                {
-                    // TODO: Monster wins
-                }
+                // TODO: Monster wins
             }
             else
             {
-                ArrayList<RPGCharacter> targetHeros = monster.characterWithinRange();
-                if (targetHeros.size() > 0)
-                {
-                    Hero targetHero = (Hero) targetHeros.get(0);
-                    battle.attack(monster, targetHero);
-                    if (targetHero.isDead())
-                    {
-                        resetHero(targetHero);
-                    }
-                }
-                else
+                if (!monster.isFighting())
                 {
                     // Move one cell below if no hero nearby
                     move(currLocation.getBelow(), monster);
@@ -281,6 +276,7 @@ public class LegendsValorGame extends RPGGame implements Playable
             move(hero.getSpawnPoint(), hero);
         }
     
+        hero.setFighting(false);
         hero.setHealth(health);
         hero.setMana(mana);
     }
