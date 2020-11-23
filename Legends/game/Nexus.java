@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import GUI_helper.TableHelper;
 import characters.*;
 import factories.*;
+import game.player.LegendsPlayer;
 import items.armor.Armor;
 import items.consumables.Potion;
 import items.handheld_items.*;
@@ -130,7 +131,7 @@ public class Nexus
     */
     public boolean isWin() {
         if (this.alignment.equals("monster")) {
-            // if hero on space, return true
+            // if hero on space, return True
         }
         return false;
     }
@@ -140,7 +141,7 @@ public class Nexus
     */
     public boolean isLose() {
         if (this.alignment.equals("hero")) {
-            // if monster on space, return true
+            // if monster on space, return True
         }
         return false;
     }
