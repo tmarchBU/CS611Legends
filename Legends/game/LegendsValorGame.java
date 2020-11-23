@@ -340,6 +340,7 @@ public class LegendsValorGame extends RPGGame implements Playable
     private void moveBack(Hero hero) {
         System.out.println("Returning " + hero.getName() + " to spawn point");
         move(hero.getSpawnPoint(), hero);
+        teleportedHeroes.remove(hero);
     }
 
     /*
