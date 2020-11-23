@@ -31,7 +31,10 @@ public class LegendsValorGame extends RPGGame implements Playable
     private InputUtility input;
     private ValorBattle battle;
     private ArrayList<Monster> monsters;
-
+    private ArmorFactory armorFactory;
+    private HandheldFactory handheldFactory;
+    private PotionFactory potionFactory;
+    private SpellFactory spellFactory;
     /*
     CONSTRUCTOR
     */
@@ -40,6 +43,10 @@ public class LegendsValorGame extends RPGGame implements Playable
         super(player, "Legends", new LegendsValorBoard());
         heroFactory = new HeroFactory();
         monsterFactory = new MonsterFactory();
+        armorFactory = new ArmorFactory();
+        handheldFactory = new HandheldFactory();
+        potionFactory = new PotionFactory();
+        spellFactory = new SpellFactory();
         input = InputUtility.getSingleInstance();
         round = 0;
         battle = new ValorBattle();
@@ -172,10 +179,10 @@ public class LegendsValorGame extends RPGGame implements Playable
                     // TODO: Hero wins
                 }
 
-                System.out.println("Would you like to enter the market? 1: yes, 2: no");
+                System.out.println("Would you like to enter the market as " + hero.getName() + "? 1: yes, 2: no");
                 numInput = input.inputInt(1, 2);
                 if (numInput == 1) {
-                    Nexus nexus = ((NexusCell) currLocation).getNexus();
+                    Nexus nexus = new Nexus(armorFactory, handheldFactory, potionFactory, spellFactory);
                     nexus.open(hero);
                 }
             }    
@@ -287,6 +294,7 @@ public class LegendsValorGame extends RPGGame implements Playable
         int mana = hero.getMaxMana();
         if (hero.isDead()) 
         {
+            System.out.println("Hero " + hero.getName() + " has fainted. Respawning...");
             health = (int) (health * 0.5);
             move(hero.getSpawnPoint(), hero);
         }
@@ -361,6 +369,10 @@ public class LegendsValorGame extends RPGGame implements Playable
             if (cell instanceof NexusCell) {
                 cell.enter(c);
                 c.setLocation((Cell) cell);
+                if (c instanceof Hero)
+                {
+                    ((Hero) c).setSpawnPoint((Cell) cell);
+                }
                 lane++;
             }
         }
