@@ -291,7 +291,6 @@ public class LegendsValorGame extends RPGGame implements Playable
             move(hero.getSpawnPoint(), hero);
         }
     
-        hero.setFighting(false);
         hero.setHealth(health);
         hero.setMana(mana);
     }
