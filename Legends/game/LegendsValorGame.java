@@ -142,11 +142,7 @@ public class LegendsValorGame extends RPGGame implements Playable
         choices.add("Q");
         choices.add("H");
         choices.add("I");
-        
-        if (!teleportedHeroes.contains((Hero) hero))
-        {
-            choices.add("T");
-        }
+        choices.add("T");
         if (location != ((Hero) hero).getSpawnPoint())
         {
             choices.add("B");
@@ -339,8 +335,17 @@ public class LegendsValorGame extends RPGGame implements Playable
     }
 
     /*
-    resetHero - resets heroes to full health and mana, and half health if they died in battle
+
     */
+    private void moveBack(Hero hero) {
+        System.out.println("Returning " + hero.getName() + " to spawn point");
+        move(hero.getSpawnPoint(), hero);
+    }
+
+    /*
+     * resetHero - resets heroes to full health and mana, and half health if they
+     * died in battle
+     */
     private void resetHero(Hero hero)
     {
         int health = hero.getMaxHealth();
@@ -359,26 +364,28 @@ public class LegendsValorGame extends RPGGame implements Playable
     /*
 
     */
-    private void moveBack(Hero hero)
-    {
-        move(hero.getSpawnPoint(), hero);
-        teleportedHeroes.remove(hero);
-    }
-    /*
-
-    */
     private void teleport(Hero hero)
     {
-        int row = LegendsValorRules.BOARD_HEIGHT - 1;
-        int lane = 0;
-        System.out.println("Choose the lane you would like to teleport to. Warning: Once teleported you will have to move back to teleport again!");
-        lane = input.inputInt(1, LegendsValorRules.NUM_LANES) - 1;
-        int laneWidth = LegendsValorRules.BOARD_HEIGHT / LegendsValorRules.NUM_LANES;
-        int cellNum = RandomHelper.randomNum(laneWidth);
-        int col = cellNum + lane * (laneWidth + 1);
-        Cell cell = getBoard().getCell(row, col);
-        move(cell, hero);
-        teleportedHeroes.add(hero);
+        if (teleportedHeroes.contains(hero))
+        {
+            System.out.println("Teleporting back to original nexus");
+            move(hero.getSpawnPoint(), hero);
+            teleportedHeroes.remove(hero);
+        } 
+        else
+        {
+            int row = LegendsValorRules.BOARD_HEIGHT - 1;
+            int lane = 0;
+            System.out.println("Choose the lane you would like to teleport to. (1 for Lane 1, etc)");
+            lane = input.inputInt(1, LegendsValorRules.NUM_LANES) - 1;
+            System.out.println("Teleporting to lane :" + lane);
+            int laneWidth = LegendsValorRules.BOARD_HEIGHT / LegendsValorRules.NUM_LANES;
+            int cellNum = RandomHelper.randomNum(laneWidth);
+            int col = cellNum + lane * (laneWidth + 1);
+            Cell cell = getBoard().getCell(row, col);
+            move(cell, hero);
+            teleportedHeroes.add(hero);
+        }
     }
 
     /*
