@@ -273,7 +273,7 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
                 case 3: setArmor(new NoArmor()); return; 
             }
         }
-        if (items.size() == 0)
+        if (items == null || items.size() == 0)
         {
             System.out.println("You have no armor to equip.");
             setArmor(new NoArmor());
