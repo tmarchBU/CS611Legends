@@ -107,30 +107,50 @@ public class LegendsValorGame extends RPGGame implements Playable
         System.out.println("| w, a, s, d = move | i = inventory | q = quit | h = help |");
     }
 
+    private boolean validLocation(Cell nextCell, Cell monsterCell) {
+        if (monsterCell == null)
+        {
+            return true;
+        }
+        else
+        {
+            return nextCell != null && nextCell.enterable() 
+                && nextCell != monsterCell.getAbove() 
+                && nextCell != monsterCell.getLeft() 
+                && nextCell != monsterCell.getRight();
+        }
+        
+    }
+
     /*
     getValidChoices - returns the valid moves/actions a player can make at any spot on the board
     */
-    private ArrayList<String> getValidChoices(RPGCharacter hero)
+    private ArrayList<String> getValidChoices(RPGCharacter hero, RPGCharacter monster)
     {
         Cell location = hero.getLocation();
+        Cell monsterLocation = null;
+        if (monster != null)
+        {
+            monsterLocation = monster.getLocation();
+        }
         ArrayList<String> choices = new ArrayList<String>();
     
         choices.add("Q");
         choices.add("H");
         choices.add("I");
-        if (location.getAbove() != null && location.getAbove().enterable())
+        if (validLocation(location.getAbove(), monsterLocation))
         {
             choices.add("W");
         }
-        if (location.getBelow() != null && location.getBelow().enterable())
+        if (validLocation(location.getBelow(), monsterLocation))
         {
             choices.add("S");
         }
-        if (location.getLeft() != null && location.getLeft().enterable())
+        if (validLocation(location.getLeft(), monsterLocation))
         {
             choices.add("A");
         }
-        if (location.getRight() != null && location.getRight().enterable())
+        if (validLocation(location.getRight(), monsterLocation))
         {
             choices.add("D");
         }
@@ -156,7 +176,6 @@ public class LegendsValorGame extends RPGGame implements Playable
     */
     private void playRound()
     {
-        
         if (round % 8 == 0) {
             int level = highestHeroLevel();
             placeMonstersOnBoard(level); // Place monsters on board every 8 rounds
@@ -166,13 +185,13 @@ public class LegendsValorGame extends RPGGame implements Playable
         int numInput = 0;
         ArrayList<Hero> heros = getPlayer().getHeroes();
         for (Hero hero : heros) {
-            
+            RPGCharacter targetMonster = null;
             System.out.println(getBoard());
             getBoard().printLegend();
             TableHelper.printHeroes(getPlayer().getHeroes());
             TableHelper.printBattleables(getMonsters());
             Cell currLocation = getLocation(hero);
-
+            boolean engage = false;
             if (currLocation instanceof NexusCell)
             {
                 if (currLocation.getAbove() == null)
@@ -189,16 +208,28 @@ public class LegendsValorGame extends RPGGame implements Playable
             }    
             // Check for monsters within range
             ArrayList<RPGCharacter> nearbyMonsters = hero.characterWithinRange();
-            if (nearbyMonsters.size() != 0)
+            
+            for (RPGCharacter c : nearbyMonsters)
             {
-                RPGCharacter targetMonster = nearbyMonsters.get(0);
-                if (targetMonster instanceof Monster) 
+                if (c instanceof Monster)
                 {
+                    targetMonster = c;
+                    break;
+                }
+            }
+            if (targetMonster != null)
+            {
+                System.out.println("You have encountered a monster: " + targetMonster.getName() + ". Would you like to engage? 1: yes, 2: no");
+                System.out.println("Warning: you need to defeat the monster to move forward");
+                numInput = input.inputInt(1, 2);
+                if (numInput == 1)
+                {
+                    engage = true;
                     System.out.println(hero.getName() 
-                        + " is fighting a " 
-                        + targetMonster.getName() 
-                        + "! What would you like to do?");
-                    
+                    + " is fighting a " 
+                    + targetMonster.getName() 
+                    + "! What would you like to do?");
+                
                     System.out.println("1) Attack | 2) Cast a Spell | 3) Open Inventory (change or consume something)");
                     numInput = input.inputInt(1, 3);
                     switch(numInput) 
@@ -230,9 +261,9 @@ public class LegendsValorGame extends RPGGame implements Playable
                     }
                 }
             } 
-            else
+            if (engage == false)
             {
-                ArrayList<String> choicesList = getValidChoices(hero);
+                ArrayList<String> choicesList = getValidChoices(hero, targetMonster);
                 String[] choices = new String[choicesList.size()];
                 choicesList.toArray(choices);
                 System.out.println("What would you like to do for " + hero.getName() + "?");
@@ -264,17 +295,18 @@ public class LegendsValorGame extends RPGGame implements Playable
             else
             {
                 ArrayList<RPGCharacter> nearbyHeros = monster.characterWithinRange();
-                if (nearbyHeros.size() > 0)
+                
+                Hero hero = null;
+                for (RPGCharacter c : nearbyHeros)
                 {
-                    Hero hero = null;
-                    for (RPGCharacter c : nearbyHeros)
+                    if (c instanceof Hero)
                     {
-                        if (c instanceof Hero)
-                        {
-                            hero = (Hero) c;
-                            break;
-                        }
+                        hero = (Hero) c;
+                        break;
                     }
+                }
+                if (hero != null)
+                {
                     battle.attack(monster, hero);
                     // Check health
                     if (hero.isDead()) 
