@@ -342,9 +342,9 @@ public class LegendsValorGame extends RPGGame implements Playable
         options.add(heroFactory.getHero("WARRIOR"));
         options.add(heroFactory.getHero("PALADIN"));
         ArrayList<Marker> markers = new ArrayList<Marker>();
-        markers.add(new Marker(Icons.HERO1_ICON));
-        markers.add(new Marker(Icons.HERO2_ICON));
-        markers.add(new Marker(Icons.HERO3_ICON));
+        markers.add(new Marker(Icons.HERO1_ICON + " "));
+        markers.add(new Marker(Icons.HERO2_ICON + " "));
+        markers.add(new Marker(Icons.HERO3_ICON + " "));
 
         System.out.println("Please choose the three heros that will be on your team");
         

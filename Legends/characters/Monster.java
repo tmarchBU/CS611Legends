@@ -34,7 +34,7 @@ public abstract class Monster extends RPGCharacter
         setDamageValue(damageValue);
         setDefenseValue(defenseValue);
         setDodgeChance(dodgeChance);
-        setMarker(new Marker(Icons.MONSTER_ICON));
+        setMarker(new Marker(Icons.MONSTER_ICON + " "));
     }
 
     /*
