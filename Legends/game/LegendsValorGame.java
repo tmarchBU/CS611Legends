@@ -219,6 +219,7 @@ public class LegendsValorGame extends RPGGame implements Playable
                     if (hero.isDead()) 
                     {
                         resetHero(hero);
+                        targetMonster.setFighting(false);
                     }
                     if (targetMonster.isDead())
                     {
