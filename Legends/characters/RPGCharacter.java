@@ -186,16 +186,33 @@ public abstract class RPGCharacter extends Character implements Battleable
     {
         Cell heroCell = getLocation();
         Cell above = heroCell.getAbove();
+        Cell upperLeft = null, upperRight = null;
+        if (above != null)
+        {
+            upperLeft = above.getLeft();
+            upperRight = above.getRight();
+        }
         Cell below = heroCell.getBelow();
+        Cell lowerLeft = null, lowerRight = null;
+        if (below != null)
+        {
+            lowerLeft = below.getLeft();
+            lowerRight = below.getRight();
+        }
         Cell left = heroCell.getLeft();
         Cell right = heroCell.getRight();
         ArrayList<RPGCharacter> characters = new ArrayList<RPGCharacter>();
+        for (RPGCharacter c : getLocation().getCharacters())
+        {
+            characters.add(c);
+        }
         if (above != null && above.enterable())
         {
             for (RPGCharacter nextCharacter : above.getCharacters())
             {                
                 characters.add(nextCharacter);
             }
+            
         }
         if (below != null && below.enterable())
         {
@@ -214,6 +231,34 @@ public abstract class RPGCharacter extends Character implements Battleable
         if (right != null && right.enterable())
         {
             for (RPGCharacter nextCharacter : right.getCharacters())
+            {
+                characters.add(nextCharacter);
+            }
+        }
+        if (upperLeft != null && upperLeft.enterable())
+        {
+            for (RPGCharacter nextCharacter : upperLeft.getCharacters())
+            {
+                characters.add(nextCharacter);
+            }
+        }
+        if (upperRight != null && upperRight.enterable())
+        {
+            for (RPGCharacter nextCharacter : upperRight.getCharacters())
+            {
+                characters.add(nextCharacter);
+            }
+        }
+        if (lowerLeft != null && lowerLeft.enterable())
+        {
+            for (RPGCharacter nextCharacter : lowerLeft.getCharacters())
+            {
+                characters.add(nextCharacter);
+            }
+        }
+        if (lowerRight != null && lowerRight.enterable())
+        {
+            for (RPGCharacter nextCharacter : lowerRight.getCharacters())
             {
                 characters.add(nextCharacter);
             }
