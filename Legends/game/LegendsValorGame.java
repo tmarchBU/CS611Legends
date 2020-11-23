@@ -28,10 +28,6 @@ public class LegendsValorGame extends RPGGame implements Playable
     private int round;
     private HeroFactory heroFactory;
     private MonsterFactory monsterFactory;
-    private ArmorFactory armorFactory;
-    private HandheldFactory handheldFactory;
-    private PotionFactory potionFactory;
-    private SpellFactory spellFactory;
     private InputUtility input;
     private ValorBattle battle;
     private ArrayList<Monster> monsters;
@@ -44,10 +40,6 @@ public class LegendsValorGame extends RPGGame implements Playable
         super(player, "Legends", new LegendsValorBoard());
         heroFactory = new HeroFactory();
         monsterFactory = new MonsterFactory();
-        armorFactory = new ArmorFactory();
-        handheldFactory = new HandheldFactory();
-        potionFactory = new PotionFactory();
-        spellFactory = new SpellFactory();
         input = InputUtility.getSingleInstance();
         round = 0;
         battle = new ValorBattle();
@@ -179,7 +171,7 @@ public class LegendsValorGame extends RPGGame implements Playable
                 {
                     // TODO: Hero wins
                 }
-                
+
                 System.out.println("Would you like to enter the market? 1: yes, 2: no");
                 numInput = input.inputInt(1, 2);
                 if (numInput == 1) {
@@ -194,8 +186,6 @@ public class LegendsValorGame extends RPGGame implements Playable
                 RPGCharacter targetMonster = nearbyMonsters.get(0);
                 if (targetMonster instanceof Monster) 
                 {
-                    hero.setFighting(true);
-                    targetMonster.setFighting(true);
                     System.out.println(hero.getName() 
                         + " is fighting a " 
                         + targetMonster.getName() 
@@ -219,15 +209,6 @@ public class LegendsValorGame extends RPGGame implements Playable
                             break;
                     }
 
-                    // Monster fights back
-                    battle.attack(targetMonster, hero);
-
-                    // Check health
-                    if (hero.isDead()) 
-                    {
-                        resetHero(hero);
-                        targetMonster.setFighting(false);
-                    }
                     if (targetMonster.isDead())
                     {
                         resetHero(hero);
@@ -236,8 +217,7 @@ public class LegendsValorGame extends RPGGame implements Playable
                     }
                 }
             } 
-            
-            if (!hero.isFighting())
+            else
             {
                 ArrayList<String> choicesList = getValidChoices(hero);
                 String[] choices = new String[choicesList.size()];
@@ -270,7 +250,26 @@ public class LegendsValorGame extends RPGGame implements Playable
             }
             else
             {
-                if (!monster.isFighting())
+                ArrayList<RPGCharacter> nearbyHeros = monster.characterWithinRange();
+                if (nearbyHeros.size() > 0)
+                {
+                    Hero hero = null;
+                    for (RPGCharacter c : nearbyHeros)
+                    {
+                        if (c instanceof Hero)
+                        {
+                            hero = (Hero) c;
+                            break;
+                        }
+                    }
+                    battle.attack(monster, hero);
+                    // Check health
+                    if (hero.isDead()) 
+                    {
+                        resetHero(hero);
+                    }
+                }
+                else
                 {
                     // Move one cell below if no hero nearby
                     move(currLocation.getBelow(), monster);

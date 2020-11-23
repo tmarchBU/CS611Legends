@@ -25,7 +25,6 @@ public abstract class RPGCharacter extends Character implements Battleable
     private int maxMana;
     private Cell location;
     private Marker marker;
-    private boolean fighting;
 
     /*
     CONSTRUCTORS
@@ -41,7 +40,6 @@ public abstract class RPGCharacter extends Character implements Battleable
         setMaxMana(mana);
         setLocation(null);
         setMarker(null);
-        setFighting(false);
     }
 
     /*
@@ -85,11 +83,6 @@ public abstract class RPGCharacter extends Character implements Battleable
     public void setMarker(Marker marker)
     {
         this.marker = marker;
-    }
-
-    public void setFighting(boolean fighting)
-    {
-        this.fighting = fighting;
     }
 
     /*
@@ -187,11 +180,6 @@ public abstract class RPGCharacter extends Character implements Battleable
     public boolean isDead()
     {
         return (getHealth() == 0);
-    }
-
-    public boolean isFighting()
-    {
-        return fighting;
     }
 
     public ArrayList<RPGCharacter> characterWithinRange() 
