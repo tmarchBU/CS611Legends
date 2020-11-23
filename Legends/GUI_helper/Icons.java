@@ -23,12 +23,5 @@ public class Icons
     public static final String HERO3_ICON = "\u2782";
     public static final String HERO4_ICON = "\u2782";
     public static final String HERO5_ICON = "\u2782";
-    public static final String MONSTER1_ICON = "\u278A";
-    public static final String MONSTER2_ICON = "\u278B";
-    public static final String MONSTER3_ICON = "\u278C";
-    public static final String MONSTER4_ICON = "\u278D";
-    public static final String MONSTER5_ICON = "\u278E";
-
-
-
+    public static final String MONSTER_ICON = "\u24C2";
 }

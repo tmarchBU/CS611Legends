@@ -1,5 +1,8 @@
 package characters;
 
+import GUI_helper.Icons;
+import game.map.Marker;
+
 /*
 File: Monster.java
 Developer: Tristan Marchand
@@ -31,6 +34,7 @@ public abstract class Monster extends RPGCharacter
         setDamageValue(damageValue);
         setDefenseValue(defenseValue);
         setDodgeChance(dodgeChance);
+        setMarker(new Marker(Icons.MONSTER_ICON));
     }
 
     /*
