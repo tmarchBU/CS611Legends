@@ -327,6 +327,7 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
 
         System.out.println("Would you like to change your weapon type? (yes/no)");
         strInput = input.yesNo();
+        ArrayList<Handheld> items = null;
         if (strInput.equalsIgnoreCase("YES"))
         {
             System.out.println("What type of weapon would you like to equip?");
@@ -336,11 +337,23 @@ public abstract class Hero extends RPGCharacter implements SpellCasting
             {
                 case 1: setWeaponsAndShields(new OneHanded()); break;
                 case 2: setWeaponsAndShields(new TwoHanded()); break;
-                case 3: setWeaponsAndShields(new NoWeapon()); return; 
+                case 3: setWeaponsAndShields(new NoWeapon()); break; 
             }
         }
-        ArrayList<Handheld> items = ((LegendsInventory) getInventory()).getHandheldItems(numInput);
-        if (items.size() == 0)
+        if (getWeaponsAndShields() instanceof OneHanded)
+        {
+            items = ((LegendsInventory) getInventory()).getHandheldItems(1);
+        }
+        if (getWeaponsAndShields() instanceof TwoHanded)
+        {
+            items = ((LegendsInventory) getInventory()).getHandheldItems(2);
+        }
+        if (getWeaponsAndShields() instanceof NoWeapon)
+        {
+            return;
+        }
+
+        if (items == null || items.size() == 0)
         {
             System.out.println("You have no weapons to equip.");
             setWeaponsAndShields(new NoWeapon());
