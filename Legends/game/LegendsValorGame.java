@@ -116,11 +116,13 @@ public class LegendsValorGame extends RPGGame implements Playable
     private boolean validLocation(Cell nextCell, Cell monsterCell) {
         if (monsterCell == null)
         {
-            return true;
+            return nextCell != null 
+                && nextCell.enterable();
         }
         else
         {
-            return nextCell != null && nextCell.enterable() 
+            return nextCell != null 
+                && nextCell.enterable() 
                 && nextCell != monsterCell.getAbove() 
                 && nextCell != monsterCell.getLeft() 
                 && nextCell != monsterCell.getRight();
@@ -379,13 +381,28 @@ public class LegendsValorGame extends RPGGame implements Playable
             int lane = 0;
             System.out.println("Choose the lane you would like to teleport to. (1 for Lane 1, etc)");
             lane = input.inputInt(1, LegendsValorRules.NUM_LANES) - 1;
-            System.out.println("Teleporting to lane :" + lane);
+            System.out.println("Teleporting to lane :" + (lane + 1));
             int laneWidth = LegendsValorRules.BOARD_HEIGHT / LegendsValorRules.NUM_LANES;
             int cellNum = RandomHelper.randomNum(laneWidth);
             int col = cellNum + lane * (laneWidth + 1);
             Cell cell = getBoard().getCell(row, col);
-            move(cell, hero);
-            teleportedHeroes.add(hero);
+            boolean moved = move(cell, hero);
+            if (!moved)
+            {
+                moved = move(cell.getLeft(), hero);
+                if (!moved)
+                {
+                    moved = move(cell.getRight(), hero);
+                }
+            }
+            if (!moved)
+            {
+                System.out.println("The chosen lane is full, unable to teleport.");
+            }
+            else
+            {
+                teleportedHeroes.add(hero);
+            }
         }
     }
 
