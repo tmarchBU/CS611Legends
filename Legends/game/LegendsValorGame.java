@@ -31,10 +31,12 @@ public class LegendsValorGame extends RPGGame implements Playable
     private InputUtility input;
     private ValorBattle battle;
     private ArrayList<Monster> monsters;
+    private ArrayList<Hero> teleportedHeroes;
     private ArmorFactory armorFactory;
     private HandheldFactory handheldFactory;
     private PotionFactory potionFactory;
     private SpellFactory spellFactory;
+    
     /*
     CONSTRUCTOR
     */
@@ -51,6 +53,7 @@ public class LegendsValorGame extends RPGGame implements Playable
         round = 0;
         battle = new ValorBattle();
         monsters = new ArrayList<Monster>();
+        teleportedHeroes = new ArrayList<Hero>();
     }
 
     /*
@@ -107,6 +110,9 @@ public class LegendsValorGame extends RPGGame implements Playable
         System.out.println("| w, a, s, d = move | b = back to spawn point nexus | t = teleport | i = inventory | q = quit | h = help |");
     }
 
+    /*
+    validLocation - Check if a destination is reachable
+    */
     private boolean validLocation(Cell nextCell, Cell monsterCell) {
         if (monsterCell == null)
         {
@@ -119,7 +125,6 @@ public class LegendsValorGame extends RPGGame implements Playable
                 && nextCell != monsterCell.getLeft() 
                 && nextCell != monsterCell.getRight();
         }
-        
     }
 
     /*
@@ -137,7 +142,11 @@ public class LegendsValorGame extends RPGGame implements Playable
         choices.add("Q");
         choices.add("H");
         choices.add("I");
-        choices.add("T");
+        
+        if (!teleportedHeroes.contains((Hero) hero))
+        {
+            choices.add("T");
+        }
         if (location != ((Hero) hero).getSpawnPoint())
         {
             choices.add("B");
@@ -284,8 +293,8 @@ public class LegendsValorGame extends RPGGame implements Playable
                     case "D": move(currLocation.getRight(), hero); break;
                     case "I": hero.openInventory(); break;
                     case "H": help(); break;
-                    case "B": move(hero.getSpawnPoint(), hero); break;
-                    case "T": teleport(hero);
+                    case "B": moveBack(hero); break;
+                    case "T": teleport(hero); 
                 }
             }
         }
@@ -350,17 +359,26 @@ public class LegendsValorGame extends RPGGame implements Playable
     /*
 
     */
+    private void moveBack(Hero hero)
+    {
+        move(hero.getSpawnPoint(), hero);
+        teleportedHeroes.remove(hero);
+    }
+    /*
+
+    */
     private void teleport(Hero hero)
     {
         int row = LegendsValorRules.BOARD_HEIGHT - 1;
         int lane = 0;
-        System.out.println("Choose the lane you would like to teleport to");
+        System.out.println("Choose the lane you would like to teleport to. Warning: Once teleported you will have to move back to teleport again!");
         lane = input.inputInt(1, LegendsValorRules.NUM_LANES) - 1;
         int laneWidth = LegendsValorRules.BOARD_HEIGHT / LegendsValorRules.NUM_LANES;
         int cellNum = RandomHelper.randomNum(laneWidth);
         int col = cellNum + lane * (laneWidth + 1);
         Cell cell = getBoard().getCell(row, col);
         move(cell, hero);
+        teleportedHeroes.add(hero);
     }
 
     /*
