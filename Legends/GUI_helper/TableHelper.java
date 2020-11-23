@@ -230,7 +230,7 @@ public class TableHelper
     /*
     printBattleables - prints out a table of battleables
     */
-    public static void printBattleables(ArrayList<Battleable> battleables)
+    public static <T extends Battleable> void printBattleables(ArrayList<T> battleables)
     {
         String[] battleableTraits = Battleable.printHelper;
         printRowString(battleableTraits.length);

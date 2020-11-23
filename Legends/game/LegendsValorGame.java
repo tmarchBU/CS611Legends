@@ -170,6 +170,7 @@ public class LegendsValorGame extends RPGGame implements Playable
             System.out.println(getBoard());
             getBoard().printLegend();
             TableHelper.printHeroes(getPlayer().getHeroes());
+            TableHelper.printBattleables(getMonsters());
             Cell currLocation = getLocation(hero);
 
             if (currLocation instanceof NexusCell)
