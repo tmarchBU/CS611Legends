@@ -26,7 +26,7 @@ import utilities.InputUtility;
 
 public class Nexus
 {
-    private final String alignment;
+    // private final String alignment;
     private ArrayList<Armor> armorItems;
     private ArrayList<Weapon> weaponItems;
     private ArrayList<Shield> shieldItems;
@@ -36,9 +36,8 @@ public class Nexus
     /*
     CONSTRUCTORS
     */
-    public Nexus(String alignment, ArmorFactory armorFactory, HandheldFactory handheldFactory, PotionFactory potionFactory, SpellFactory spellFactory)
+    public Nexus(ArmorFactory armorFactory, HandheldFactory handheldFactory, PotionFactory potionFactory, SpellFactory spellFactory)
     {
-        this.alignment = alignment;
         ArrayList<Armor> newArmorItems = new ArrayList<Armor>();
         newArmorItems.add(armorFactory.getArmor("FULLBODY"));
         newArmorItems.add(armorFactory.getArmor("HELMET"));
@@ -129,38 +128,38 @@ public class Nexus
     /*
     isWin - returns True is a Hero is on the Monster's Nexus, and false if not
     */
-    public boolean isWin() {
-        if (this.alignment.equals("monster")) {
-            // if hero on space, return True
-        }
-        return false;
-    }
+    // public boolean isWin() {
+    //     if (this.alignment.equals("monster")) {
+    //         // if hero on space, return True
+    //     }
+    //     return false;
+    // }
 
     /*
     isLose - returns True is a Monster is on the Hero's Nexus, and false if not
     */
-    public boolean isLose() {
-        if (this.alignment.equals("hero")) {
-            // if monster on space, return True
-        }
-        return false;
-    }
+    // public boolean isLose() {
+    //     if (this.alignment.equals("hero")) {
+    //         // if monster on space, return True
+    //     }
+    //     return false;
+    // }
 
     /*
     spawnMonster - spawns a Monster onto the Nexus
     */
-    public void spawnMonster() {
-        // determine highest level of all current Heroes on the board
-        // randomly create a new monster with that level
-        // Monster newMon = new Monster();
-    }
+    // public void spawnMonster() {
+    //     // determine highest level of all current Heroes on the board
+    //     // randomly create a new monster with that level
+    //     // Monster newMon = new Monster();
+    // }
 
-    /*
-    recallHero - teleports a Hero to the Nexus
-    */
-    public void recallHero(Hero hero) {
-        // hero needs coordinates (row and col)
-    }
+    // /*
+    // recallHero - teleports a Hero to the Nexus
+    // */
+    // public void recallHero(Hero hero) {
+    //     // hero needs coordinates (row and col)
+    // }
 
     /*
     open - UI entry point into the market
