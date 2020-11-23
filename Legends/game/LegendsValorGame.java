@@ -179,6 +179,13 @@ public class LegendsValorGame extends RPGGame implements Playable
                 {
                     // TODO: Hero wins
                 }
+                
+                System.out.println("Would you like to enter the market? 1: yes, 2: no");
+                numInput = input.inputInt(1, 2);
+                if (numInput == 1) {
+                    Nexus nexus = ((NexusCell) currLocation).getNexus();
+                    nexus.open(hero);
+                }
             }    
             // Check for monsters within range
             ArrayList<RPGCharacter> nearbyMonsters = hero.characterWithinRange();
