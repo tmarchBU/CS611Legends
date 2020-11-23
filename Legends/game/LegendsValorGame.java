@@ -199,9 +199,9 @@ public class LegendsValorGame extends RPGGame implements Playable
                     // TODO: Hero wins
                 }
 
-                System.out.println("Would you like to enter the market as " + hero.getName() + "? 1: yes, 2: no");
-                numInput = input.inputInt(1, 2);
-                if (numInput == 1) {
+                System.out.println("Would you like to enter the market as " + hero.getName() + "? yes/NO");
+                strInput = input.yesNo();
+                if (strInput.equals("yes")) {
                     Nexus nexus = new Nexus(armorFactory, handheldFactory, potionFactory, spellFactory);
                     nexus.open(hero);
                 }
@@ -219,10 +219,10 @@ public class LegendsValorGame extends RPGGame implements Playable
             }
             if (targetMonster != null)
             {
-                System.out.println("You have encountered a monster: " + targetMonster.getName() + ". Would you like to engage? 1: yes, 2: no");
+                System.out.println("You have encountered a monster: " + targetMonster.getName() + ". Would you like to engage? yes/NO");
                 System.out.println("Warning: you need to defeat the monster to move forward");
-                numInput = input.inputInt(1, 2);
-                if (numInput == 1)
+                strInput = input.yesNo();
+                if (strInput.equals("yes"))
                 {
                     engage = true;
                     System.out.println(hero.getName() 
