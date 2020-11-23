@@ -8,7 +8,6 @@ Last Edited: Thursday, November 19, 2020
 Description: A subclass of RPGGame that plays the game of Legends of Valor
 */
 
-
 /*
 Imported Libraries
 */
@@ -20,6 +19,7 @@ import characters.*;
 import factories.*;
 import game.map.*;
 import game.player.LegendsPlayer;
+import game.rules.LegendsRules;
 import game.rules.LegendsValorRules;
 import utilities.*;
 
@@ -220,10 +220,10 @@ public class LegendsValorGame extends RPGGame implements Playable
                     {
                         resetHero(hero);
                         System.out.println(hero.getName() + " has defeated a " + targetMonster.getName());
-                        hero.increaseExperience((int) LegendsValorRules.HERO_EXPERIENCE_GAIN_LEVEL);
+                        hero.increaseExperience((int) LegendsRules.HERO_EXPERIENCE_GAIN_LEVEL);
                         System.out.println(hero.getName() + " gained " + ((int) LegendsRules.HERO_EXPERIENCE_GAIN_LEVEL) + " experience.");
-                        hero.increaseMoney((int) (LegendsValorRules.MONSTER_MONEY_LEVEL * targetMonster.getLevel()));
-                        System.out.println(hero.getName() + " gained " + ((int) (LegendsValorRules.MONSTER_MONEY_LEVEL * targetMonster.getLevel())) + " money.");
+                        hero.increaseMoney((int) (LegendsRules.MONSTER_MONEY_LEVEL * targetMonster.getLevel()));
+                        System.out.println(hero.getName() + " gained " + ((int) (LegendsRules.MONSTER_MONEY_LEVEL * targetMonster.getLevel())) + " money.");
                         targetMonster.getLocation().exit(targetMonster);
                         getMonsters().remove(targetMonster);
                     }
