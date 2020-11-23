@@ -137,7 +137,8 @@ public class LegendsValorGame extends RPGGame implements Playable
         choices.add("Q");
         choices.add("H");
         choices.add("I");
-        if (!(location instanceof NexusCell))
+        choices.add("T");
+        if (location != ((Hero) hero).getSpawnPoint())
         {
             choices.add("B");
         }
@@ -248,7 +249,7 @@ public class LegendsValorGame extends RPGGame implements Playable
                             break;
                         // open inventory
                         case 3:
-                            openInventory();
+                            hero.openInventory();
                             break;
                     }
 
@@ -281,10 +282,10 @@ public class LegendsValorGame extends RPGGame implements Playable
                     case "A": move(currLocation.getLeft(), hero); break;
                     case "S": move(currLocation.getBelow(), hero); break;
                     case "D": move(currLocation.getRight(), hero); break;
-                    case "I": openInventory(); break;
+                    case "I": hero.openInventory(); break;
                     case "H": help(); break;
                     case "B": move(hero.getSpawnPoint(), hero); break;
-                    // TODO: IMPLEMENT TELEPORT
+                    case "T": teleport(hero);
                 }
             }
         }
@@ -347,15 +348,19 @@ public class LegendsValorGame extends RPGGame implements Playable
     }
 
     /*
-    openInventory - asks a player which hero's inventory, and calls openInventory on the Hero
-    */
-    private void openInventory()
-    {
-        int numInput = 0;
-        System.out.println("Input the number of hero whose inventory you would like to open.");
-        numInput = input.inputInt(1, getPlayer().getHeroes().size());
 
-        getPlayer().getHeroes().get(numInput - 1).openInventory();;
+    */
+    private void teleport(Hero hero)
+    {
+        int row = LegendsValorRules.BOARD_HEIGHT - 1;
+        int lane = 0;
+        System.out.println("Choose the lane you would like to teleport to");
+        lane = input.inputInt(1, LegendsValorRules.NUM_LANES) - 1;
+        int laneWidth = LegendsValorRules.BOARD_HEIGHT / LegendsValorRules.NUM_LANES;
+        int cellNum = RandomHelper.randomNum(laneWidth);
+        int col = cellNum + lane * (laneWidth + 1);
+        Cell cell = getBoard().getCell(row, col);
+        move(cell, hero);
     }
 
     /*
