@@ -134,10 +134,13 @@ public class LegendsValorGame extends RPGGame implements Playable
             monsterLocation = monster.getLocation();
         }
         ArrayList<String> choices = new ArrayList<String>();
-    
         choices.add("Q");
         choices.add("H");
         choices.add("I");
+        if (!(location instanceof NexusCell))
+        {
+            choices.add("B");
+        }
         if (validLocation(location.getAbove(), monsterLocation))
         {
             choices.add("W");
@@ -279,6 +282,7 @@ public class LegendsValorGame extends RPGGame implements Playable
                     case "D": move(currLocation.getRight(), hero); break;
                     case "I": openInventory(); break;
                     case "H": help(); break;
+                    case "B": move(hero.getSpawnPoint(), hero); break;
                     // TODO: IMPLEMENT TELEPORT
                 }
             }
@@ -402,7 +406,6 @@ public class LegendsValorGame extends RPGGame implements Playable
         for (RPGCharacter c : characters) {
             int cellNum = RandomHelper.randomNum(laneWidth);
             int col = cellNum + lane * (laneWidth + 1);
-            System.out.println(col);
             Moveable cell = (Moveable) getBoard().getCell(row, col);
             if (cell instanceof NexusCell) {
                 cell.enter(c);
