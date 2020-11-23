@@ -1,6 +1,7 @@
 package game.map;
 
 import GUI_helper.*;
+import game.Nexus;
 
 public class NexusCell extends Cell
 {
