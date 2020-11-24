@@ -334,6 +334,11 @@ public class LegendsValorGame extends RPGGame implements Playable
                 }
             }
         }
+        for (Hero hero : heros)
+        {
+            hero.increaseHealth((int) ((hero.getMaxHealth() * LegendsRules.HERO_HEALTH_REGEN_LEVEL)));
+            hero.increaseMana((int) ((hero.getMaxMana() * LegendsRules.HERO_MANA_REGEN_LEVEL)));
+        }
     }
 
     /*

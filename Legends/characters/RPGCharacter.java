@@ -149,11 +149,19 @@ public abstract class RPGCharacter extends Character implements Battleable
     public void increaseMana(int mana)
     {
         this.mana += mana;
+        if (getMana() > getMaxMana())
+        {
+            setMana(getMaxMana());
+        }
     }
 
     public void increaseHealth(int health)
     {
         this.health += health;
+        if (getHealth() > getMaxHealth())
+        {
+            setHealth(getMaxHealth());
+        }
     }
 
     public void decreaseHealth(int health)
