@@ -1,6 +1,6 @@
 package game;
 /*
-File: LegendsGame2.java
+File: LegendsValorGame.java
 Developer: Tristan Marchand, Shuaike Zhou
 Email: tmarch@bu.edu, szhou97@bu.edu
 Last Edited: Thursday, November 19, 2020
