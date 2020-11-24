@@ -217,15 +217,18 @@ PlayLegends.java
 The heirarchy of the game files from top to bottom: Game -> SinglePlayerGame -> RPGGame -> LegendsGame
 
 Game is an abstract superclass that just holds the name of the game. Abstract SinglePlayerGame adds one player. 
-Abstract RPGGame adds a map (board) and the location of the player on the map. LegendsGame is the actual game of 
-Legends and is where the game is played. Playable is an interface for .play and .quit, which LegendsGame implements. 
-PlayLegends is the access point into LegendsGame, asking if the player would like to configure the rules then 
+Abstract RPGGame adds a map (board) and the location of the heroes on the map. LegendsValorGame is the actual game of 
+Legends and is where the game is played. Playable is an interface for .play and .quit, which LegendsValorGame implements. 
+PlayLegends is the access point into LegendsValorGame, asking if the player would like to configure the rules then 
 creating and starting the game. 
 	
 Notable Things:
-1. LegendsGame holds factories of every type of physical object in the game: Hero, Monster, Armor, Handheld, Potion, and Spell.
-2. LegendsGame getValidChoices uses the player's location to determine all valid choices a player can make per "round" on the board.
-3. LegendsGame placePlayerOnBoard randomly decides a cell on the board for a player to start at. Must be a common cell. 
+1. LegendsValorGame follows the game logic 
+2. Heroes are allowed to move one cell at a time, teleport to the nexus of another lane, or return to the spawn point during movement phase.
+3. Heros are not allowed to move into a monster's row (Monster's cell and the horizontal adjacent cells) without defeating the monster. The same thing applies the other way around.
+4. LegendsValorGame holds factories of every type of physical object in the game: Hero, Monster, Armor, Handheld, Potion, and Spell.
+5. LegendsValorGame getValidChoices uses the player's location to determine all valid choices a player can make per "round" on the board.
+6. LegendsValorGame placePlayerOnBoard randomly decides a cell on the board for a player to start at. Must be a common cell. 
 ---
 player files:
 LegendsPlayer.java
@@ -237,16 +240,12 @@ Player holds the name of the player, some ID of the player (if necessary), and a
 LegendsPlayer adds the arraylist of heroes necessary to play Legends.
 ---
 game situation files:
-Battle.java
+ValorBattle.java
 Nexus.java
 
 The main 2 "events" of the game occur on common cells (a battle) and nexus cells (spawn/victory condition/market). These two
 events are executed in Battle and Nexus. 
-Battle has 2 sets of arraylists: alive and dead. The constructor is passed 2 arraylists of Battleable objects. 
-The battle is started by calling .start, which gives each hero an option of attacking, casting a spell, or opening 
-inventory. The action is executed, and the hero's turn is over. When someone dies, they are removed from the alive 
-arraylist and added to the dead arraylist. .attack executes an attack from a Battleable attacker and a 
-Battleable defender.
+ValorBattle class has two methods: attack and castSpell. The methods take an attacker and a target and perform the actions.
 The Nexus cell acts as a return point for the hero, and spawns a hero and monster at their respective Nexus cells. 
 The Nexus cell also acts as a victory or defeat condition for the game. When a player enters a Nexus cell, a 
 market is created by being passed the factories. It creates arraylists of each item type randomly using the 
