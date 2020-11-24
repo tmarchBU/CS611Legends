@@ -14,12 +14,10 @@ public class Board
 {
     protected Cell[][] board;         // 2D array of cells that represents the board
 
-    // CONSTRUCTORS
-
-    public Board()
-    {
-
-    }
+    /*
+    CONSTRUCTORS
+    */
+    public Board(){}
 
     /*
     Constructs the board with inputed height and width

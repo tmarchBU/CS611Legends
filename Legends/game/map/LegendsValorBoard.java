@@ -1,7 +1,19 @@
 package game.map;
 
-import java.util.ArrayList;
+/*
+File: KoulouCell.java
+Developer: Tristan Marchand
+Email: tmarch@bu.edu
+BU ID: U13495035
+Last Edited: Tuesday, November 10, 2020
 
+Description: Subclass of cell, representing a Koulou cell. Used for Legends Valor
+*/
+
+/*
+Imported Libraries
+*/
+import java.util.ArrayList;
 import game.rules.LegendsValorRules;
 import utilities.RandomHelper;
 

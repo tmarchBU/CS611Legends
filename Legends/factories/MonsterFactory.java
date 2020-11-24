@@ -121,6 +121,9 @@ public class MonsterFactory
         return monster;
     }
 
+    /*
+    getRandomMonsterType - returns a random monster type to use to create a monster
+    */
     private String getRandomMonsterType()
     {
         Random random = new Random();

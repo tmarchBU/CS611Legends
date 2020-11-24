@@ -1,5 +1,18 @@
 package game.map;
 
+/*
+File: NexusCell.java
+Developer: Tristan Marchand
+Email: tmarch@bu.edu
+BU ID: U13495035
+Last Edited: Tuesday, November 10, 2020
+
+Description: Subclass of cell, representing a Nexus cell. Used for Legends Valor
+*/
+
+/*
+Imported Libraries
+*/
 import GUI_helper.*;
 import game.Nexus;
 

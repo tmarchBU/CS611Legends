@@ -94,6 +94,9 @@ public class LegendsInventory extends Inventory
         return splitArmorItems;
     }
 
+    /*
+    input specifies which type of weapons (1 or 2 handed)
+    */
     public ArrayList<Handheld> getHandheldItems(int hands)
     {
         ArrayList<Handheld> items = new ArrayList<Handheld>();
