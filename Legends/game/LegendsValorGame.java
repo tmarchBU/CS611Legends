@@ -306,37 +306,29 @@ public class LegendsValorGame extends RPGGame implements Playable
         for (Monster monster : monsters)
         {
             Cell currLocation = monster.getLocation();
-            if (currLocation instanceof NexusCell && currLocation.getBelow() == null) 
+            ArrayList<RPGCharacter> nearbyHeros = monster.characterWithinRange();      
+            Hero hero = null;
+            for (RPGCharacter c : nearbyHeros)
             {
-                // TODO: Monster wins
+                if (c instanceof Hero)
+                {
+                    hero = (Hero) c;
+                    break;
+                }
+            }
+            if (hero != null)
+            {
+                battle.attack(monster, hero);
+                // Check health
+                if (hero.isDead()) 
+                {
+                    resetHero(hero);
+                }
             }
             else
             {
-                ArrayList<RPGCharacter> nearbyHeros = monster.characterWithinRange();
-                
-                Hero hero = null;
-                for (RPGCharacter c : nearbyHeros)
-                {
-                    if (c instanceof Hero)
-                    {
-                        hero = (Hero) c;
-                        break;
-                    }
-                }
-                if (hero != null)
-                {
-                    battle.attack(monster, hero);
-                    // Check health
-                    if (hero.isDead()) 
-                    {
-                        resetHero(hero);
-                    }
-                }
-                else
-                {
-                    // Move one cell below if no hero nearby
-                    move(currLocation.getBelow(), monster);
-                }
+                // Move one cell below if no hero nearby
+                move(currLocation.getBelow(), monster);
             }
         }
         for (Hero hero : heros)
