@@ -215,7 +215,6 @@ public class LegendsValorGame extends RPGGame implements Playable
             }    
             // Check for monsters within range
             ArrayList<RPGCharacter> nearbyMonsters = hero.characterWithinRange();
-            
             for (RPGCharacter c : nearbyMonsters)
             {
                 if (c instanceof Monster)
@@ -291,6 +290,20 @@ public class LegendsValorGame extends RPGGame implements Playable
                 }
             }
         }
+
+        int win = win();
+        if (win == 0)
+        {
+            System.out.println(getBoard());
+            System.out.println("Your team of heroes have succesfully delivered the payload to the destination. Thank you for your service!");
+            quit();
+        }
+        else if (win == 1)
+        {
+            System.out.println(getBoard());
+            System.out.println("A monster has reached the hero's home base. Mission failed.");
+            quit();
+        }
         
         // Monster movements
         for (Monster monster : monsters)
@@ -333,18 +346,6 @@ public class LegendsValorGame extends RPGGame implements Playable
         {
             hero.increaseHealth((int) ((hero.getMaxHealth() * LegendsRules.HERO_HEALTH_REGEN_LEVEL)));
             hero.increaseMana((int) ((hero.getMaxMana() * LegendsRules.HERO_MANA_REGEN_LEVEL)));
-        }
-
-        int win = win();
-        if (win == 0)
-        {
-            System.out.println("Your team of heroes have succesfully delivered the payload to the destination. Thank you for your service!");
-            quit();
-        }
-        else if (win == 1)
-        {
-            System.out.println("A monster has reached the hero's home base. Mission failed.");
-            quit();
         }
     }
 
