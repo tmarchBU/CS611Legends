@@ -337,7 +337,7 @@ public class LegendsValorGame extends RPGGame implements Playable
     }
 
     /*
-
+    moveBack - move the hero back to spawn point regardless of current location
     */
     private void moveBack(Hero hero) {
         System.out.println("Returning " + hero.getName() + " to spawn point");
@@ -346,9 +346,8 @@ public class LegendsValorGame extends RPGGame implements Playable
     }
 
     /*
-     * resetHero - resets heroes to full health and mana, and half health if they
-     * died in battle
-     */
+    resetHero - resets heroes to full health and mana, and half health if they died in battle
+    */
     private void resetHero(Hero hero)
     {
         int health = hero.getMaxHealth();
@@ -365,7 +364,7 @@ public class LegendsValorGame extends RPGGame implements Playable
     }
 
     /*
-
+    teleport - Teleports a hero to a certain lane, back to spawn point if already teleported
     */
     private void teleport(Hero hero)
     {
@@ -447,6 +446,9 @@ public class LegendsValorGame extends RPGGame implements Playable
         TableHelper.printHeroes(getPlayer().getHeroes());
     }
 
+    /*
+    placeCharactersOnBoard - place some characters on the board. Used for both monsters and heroes
+    */
     private void placeCharactersOnBoard(ArrayList<RPGCharacter> characters, int row) {
         int numLanes = LegendsValorRules.NUM_LANES;
         int laneWidth = LegendsValorRules.BOARD_HEIGHT / numLanes;
