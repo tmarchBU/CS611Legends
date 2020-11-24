@@ -417,17 +417,3 @@ this and had to move on.
 Armor is an abstract subclass of item, and has 5 subclasses Boots, FullBody, Gloves, Helmet, SplitBody. SplitArmor
 uses Boots, Gloves, SplitBody, and Helmet to calculate the defense value. FullArmor uses only one FullBody piece to
 calculate the defense value.
-
----------------------- Final Notes---------------------------
-
-There are definitely a lot of places in here that need improvement, and the ArmorTypes and HandTypes are a bit buggy,
-but I thought they were important scalable features. At some point, I had to ditch good implementation and just write
-something that worked, so there's a lot of places that could be better. I focused mostly on the design structure,
-so I hope that counts for something. I also definitely lacked on the graphics a bit, and lack some storytelling,
-but I didn't have the time unfortunately. So I hope this is alright!
-
-
-
-
-
-
