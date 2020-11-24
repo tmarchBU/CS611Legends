@@ -17,7 +17,6 @@ import java.util.ArrayList;
 import GUI_helper.TableHelper;
 import characters.*;
 import factories.*;
-import game.player.LegendsPlayer;
 import items.armor.Armor;
 import items.consumables.Potion;
 import items.handheld_items.*;
