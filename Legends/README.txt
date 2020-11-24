@@ -1,6 +1,10 @@
 Tristan Marchand, Shuaike Zhou, Christopher Trinh
 tmarch@bu.edu
+szhou97@bu.edu
+ctrinh@bu.edu
 U13495035 (Tristan's ID)
+U77947592 (Shawn's ID)
+U44018148 (Christopher's ID)
 Legends Valor
 
 ----------- List of Java Files for Legends ---------------
@@ -195,10 +199,12 @@ some new objects (Deleted Armory, Added BodyArmor, BootsArmor, FullBodyArmor, Gl
 ---
 rules files:
 LegendRules.java
+LegendsValorRules.java
 
-Stores static variables for all the rules of Legends (the constant values). Implements a .configure method that allows
-the player to personalize their game experience. Input validation is NOT implemented for simplicity, this would take too long. 
-But all settings can be changed, from hero/monster settings to board size.
+LegendRules stores static variables for all the rules of Legends (the constant values). LegendsValorRules does the same for new 
+rules unique to LegendsValorGame. Implements a .configure method that allows the player to personalize their game experience. 
+Input validation is NOT implemented for simplicity, this would take too long. But all settings can be changed, from hero/monster 
+settings to board size.
 ---
 game files:
 Game.java
