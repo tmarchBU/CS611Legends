@@ -203,11 +203,6 @@ public class LegendsValorGame extends RPGGame implements Playable
             boolean engage = false;
             if (currLocation instanceof NexusCell)
             {
-                if (currLocation.getAbove() == null)
-                {
-                    // TODO: Hero wins
-                }
-
                 System.out.println("Would you like to enter the market as " + hero.getName() + "? yes/NO");
                 strInput = input.yesNo();
                 if (strInput.equals("yes")) {
@@ -336,6 +331,47 @@ public class LegendsValorGame extends RPGGame implements Playable
             hero.increaseHealth((int) ((hero.getMaxHealth() * LegendsRules.HERO_HEALTH_REGEN_LEVEL)));
             hero.increaseMana((int) ((hero.getMaxMana() * LegendsRules.HERO_MANA_REGEN_LEVEL)));
         }
+
+        int win = win();
+        if (win == 0)
+        {
+            System.out.println("Your team of heroes have succesfully delivered the payload to the destination. Thank you for your service!");
+            quit();
+        }
+        else if (win == 1)
+        {
+            System.out.println("A monster has reached the hero's home base. Mission failed.");
+            quit();
+        }
+    }
+
+    private int win()
+    {
+        int heroWinner = 0;
+        for (Hero hero : getPlayer().getHeroes())
+        {
+            Cell location = hero.getLocation();
+            if (location instanceof NexusCell && location.getAbove() == null)
+            {
+                heroWinner++;
+            }
+        }
+
+        int monsterWinner = 0;
+        for (Monster monster : getMonsters())
+        {
+            Cell location = monster.getLocation();
+            if (location instanceof NexusCell && location.getBelow() == null)
+            {
+                monsterWinner++;
+            }
+        }
+        if (heroWinner >= monsterWinner && heroWinner != 0)
+            return 0;
+        else if (monsterWinner > heroWinner)
+            return 1;
+        else
+            return -1;
     }
 
     /*
@@ -412,8 +448,7 @@ public class LegendsValorGame extends RPGGame implements Playable
     */
     private void intro()
     {   
-        // TODO: CREATE NEW STORY
-        System.out.println("Not enough time for a cool story, I'm sorry :(");
+        System.out.println("Welcome to Legends of Valors! Prepare yourself for the adventure!!");
         System.out.println("Here are the controls:");
         help();
     }

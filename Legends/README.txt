@@ -232,37 +232,41 @@ LegendsPlayer adds the arraylist of heroes necessary to play Legends.
 ---
 game situation files:
 Battle.java
-Market.java
+Nexus.java
 
-The main 2 "events" of the game occur on common cells (a battle) and market cells (shop at the market). These two
-events are executed in Battle and Market. 
+The main 2 "events" of the game occur on common cells (a battle) and nexus cells (spawn/victory condition/market). These two
+events are executed in Battle and Nexus. 
 Battle has 2 sets of arraylists: alive and dead. The constructor is passed 2 arraylists of Battleable objects. 
 The battle is started by calling .start, which gives each hero an option of attacking, casting a spell, or opening 
 inventory. The action is executed, and the hero's turn is over. When someone dies, they are removed from the alive 
 arraylist and added to the dead arraylist. .attack executes an attack from a Battleable attacker and a 
 Battleable defender.
-When a player enters a market cell, a market is created by being passed the factories. It creates arraylists of 
-each item type randomly using the factories, so the items offered are different every time. Entry point to the
-market it calling .open on the market object. This asks a hero if they want to buy or sell, and calls either .buy
-or .sell depending on the choice. 
+The Nexus cell acts as a return point for the hero, and spawns a hero and monster at their respective Nexus cells. 
+The Nexus cell also acts as a victory or defeat condition for the game. When a player enters a Nexus cell, a 
+market is created by being passed the factories. It creates arraylists of each item type randomly using the 
+factories, so the items offered are different every time. Entry point to the market it calling .open on the 
+market object. This asks a hero if they want to buy or sell, and calls either .buy or .sell depending on the choice. 
 ---
 board files:
 Board.java
+BushCell.java
+CaveCell.java
 Cell.java
 CommonCell.java
 InaccessibleCell.java
-LegendsBoard.java
+KoulouCell.java
+LegendsValorBoard.java
 Marker.java
-MarketCell.java
 Moveable.java
+NexusCell.java
 
-The heirarchy of board files from top to bottom: Board -> LegendsBoard
-The heirarchy of cell files from top to bottom: Cell -> {MarketCell, CommonCell, Inaccessible Cell}
+The heirarchy of board files from top to bottom: Board -> LegendsValorBoard
+The heirarchy of cell files from top to bottom: Cell -> {BushCell, CaveCell, CommonCell, InaccessibleCell, NexusCell}
 
 The board contains an 2D array of Cells. Each cell on the board implements Moveable, allowing a marker to enter
 and exit a cell. Each cell has reference to it's immediate adjacent cell, allowing for easy moveability around the 
-board. The adjacents are set by Board in the constructor. LegendsBoard creates a board and randomly assigns 
-Inaccessible, Market, and Common cells cased on the levels specified in the rules and sets the adjacents. 
+board. The adjacents are set by Board in the constructor. LegendsValorBoard creates a board and randomly assigns 
+Inaccessible, Bush, Cave, Koulou, and Common cells cased on the levels specified in the rules and sets the adjacents. 
 Also provides a .printLegend method that prints the board's legend. 
 Marker is used by Player as a graphic representation of the player, as well as used by the subclasses of cell to 
 represent the type of cell. 
