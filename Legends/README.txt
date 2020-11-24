@@ -7,8 +7,8 @@ U77947592 (Shawn's ID)
 U44018148 (Christopher's ID)
 Legends Valor
 
------------ List of Java Files for Legends ---------------
-              73 Classes | 17 Text Files
+----------- List of Java Files for Legends Valor ---------------
+              77 Classes | 17 Text Files
 
 Main:
 Play.java
@@ -38,10 +38,10 @@ PotionFactory.java
 SpellFactory.java
 
 game:
-Battle.java
+ValorBattle.java
 Game.java
-LegendsGame.java
-Market.java
+LegendsValorGame.java
+Nexus.java
 Playable.java
 PlayLegends.java
 RPGGame.java
@@ -49,13 +49,16 @@ SinglePlayerGame.java
 
 game/map:
 Board.java
+BushCell.java
+CaveCell.java
 Cell.java
 CommonCell.java
 InaccessibleCell.java
-LegendsBoard.java
+KoulouCell.java
+LegendsValorBoard.java
 Marker.java
-MarketCell.java
 Moveable.java
+NexusCell.java
 
 game/player:
 LegendsPlayer.java
@@ -63,6 +66,7 @@ Player.java
 
 game/rules:
 LegendsRules.java
+LegendsValorRules.java
 
 GUI_helper:
 Icons.java
