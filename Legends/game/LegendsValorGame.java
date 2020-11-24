@@ -292,7 +292,7 @@ public class LegendsValorGame extends RPGGame implements Playable
         if (win == 0)
         {
             System.out.println(getBoard());
-            System.out.println("Your team of heroes have succesfully delivered the payload to the destination. Thank you for your service!");
+            System.out.println("Your team of heroes have successfully delivered the payload to the destination. Thank you for your service!");
             quit();
         }
         else if (win == 1)
