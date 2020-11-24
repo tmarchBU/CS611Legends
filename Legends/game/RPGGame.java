@@ -3,7 +3,7 @@ package game;
 import characters.RPGCharacter;
 
 /*
-File: RPGGame2.java (based on RPGGame.java)
+File: RPGGame.java
 Developer: Tristan Marchand, Shuaike Zhou
 Email: tmarch@bu.edu, szhou97@bu.edu
 Last Edited: Thursday, November 19, 2020

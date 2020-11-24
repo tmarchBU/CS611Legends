@@ -190,6 +190,9 @@ public abstract class RPGCharacter extends Character implements Battleable
         return (getHealth() == 0);
     }
 
+    /*
+    characterWithinRange - returns all characters within 1 cell
+    */
     public ArrayList<RPGCharacter> characterWithinRange() 
     {
         Cell heroCell = getLocation();

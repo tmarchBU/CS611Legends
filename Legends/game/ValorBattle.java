@@ -1,5 +1,17 @@
 package game;
 
+/*
+File: ValorBattle.java
+Developer: Shuaike Zhou
+Email: szhou97@bu.edu
+Last Edited: Tuesday, November 10, 2020
+
+Description: Handles all attack mechanics of the game
+*/
+
+/*
+Imported Libraries
+*/
 import GUI_helper.TableHelper;
 import characters.Battleable;
 import characters.Hero;

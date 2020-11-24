@@ -12,15 +12,12 @@ Description: A subclass of RPGGame that plays the game of Legends of Valor
 Imported Libraries
 */
 import java.util.ArrayList;
-
-import GUI_helper.Icons;
-import GUI_helper.TableHelper;
+import GUI_helper.*;
 import characters.*;
 import factories.*;
 import game.map.*;
 import game.player.LegendsPlayer;
-import game.rules.LegendsRules;
-import game.rules.LegendsValorRules;
+import game.rules.*;
 import utilities.*;
 
 public class LegendsValorGame extends RPGGame implements Playable 

@@ -5,7 +5,7 @@ import characters.RPGCharacter;
 import game.rules.LegendsValorRules;
 
 /*
-File: SpellFactory.java
+File: Cell.java
 Developer: Tristan Marchand
 Email: tmarch@bu.edu
 BU ID: U13495035

@@ -1,7 +1,7 @@
-Tristan Marchand
+Tristan Marchand, Shuaike Zhou, Christopher Trinh
 tmarch@bu.edu
-U13495035
-Legends
+U13495035 (Tristan's ID)
+Legends Valor
 
 ----------- List of Java Files for Legends ---------------
               73 Classes | 17 Text Files
