@@ -2,7 +2,7 @@ package game;
 
 /*
 File: ValorBattle.java
-Developer: Shuaike Zhou
+Developer: Shuaike Zhou hi
 Email: szhou97@bu.edu
 Last Edited: Tuesday, November 10, 2020
 
